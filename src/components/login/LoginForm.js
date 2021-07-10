@@ -6,24 +6,27 @@ import { loginAsync, clearState } from '../../features/AuthSlice'
 import { useEffect } from 'react'
 
 const LoginForm = () => {
+  //testing comment
+  // built-in function ng redux para ma-dispatch yung laman na ipapasa mo galing sa formUser
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
-
+  //set initial state
   const [formUser, setFormUser] = useState({
     email: '',
     password: '',
   })
 
-  const { errors, isAuth, authId, user } = useSelector(({ auth }) => auth)
-
+  // useSelector para makuha mo yung data sa redux
+  const { errors, isAuth, authId, user } = useSelector(({ auth }) => auth);
   const onHandleChange = (e) => {
     const { name, value } = e.target
     formUser[name] = value
     setFormUser({ ...formUser })
   }
 
+  //error validation
   const onHandleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (formUser.email === "") {
       return errorMessage('error', 'Please input email')
     }
@@ -35,6 +38,8 @@ const LoginForm = () => {
     }))
 
   }
+
+  // useEffect magttrigger after submit form
   useEffect(() => {
     if (errors.length > 0) {
       dispatch(clearState())
@@ -51,9 +56,11 @@ const LoginForm = () => {
 
         <form onSubmit={onHandleSubmit}>
           <div className="row">
-            <input type="text" placeholder="Email" name="email"
-              onChange={onHandleChange}
-            />
+            <input
+              type="text"
+              placeholder="Email"
+              name="email"
+              onChange={onHandleChange}/>
           </div>
           <div className="row">
             <input
@@ -61,12 +68,11 @@ const LoginForm = () => {
               placeholder="Password"
               name="password"
               autoComplete="off"
-              onChange={onHandleChange}
-            />
+              onChange={onHandleChange}/>
           </div>
 
           <div className="row button">
-            <button type="submit" className="submit" >
+            <button type="submit" className="submit">
               Login
             </button>
           </div>
