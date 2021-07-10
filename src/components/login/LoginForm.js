@@ -33,7 +33,7 @@ const LoginForm = () => {
     if (formUser.password === "") {
       return errorMessage('error', 'Please input password')
     }
-    dispatch(loginAsync({
+    dispatch(loginAsync({ //ibabato yung laman ng form users data to redux
       ...formUser
     }))
 
