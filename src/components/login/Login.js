@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 const Login = () => {
 
-  //built-in function ng react-router-dom for redirection of url path
+  //built-in function ng react-router-dom for redirection of url path 
   const history = useHistory();
 
   //once i-click yung button mapupunta sa /login path

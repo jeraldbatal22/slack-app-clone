@@ -1,7 +1,8 @@
 import './App.css';
 import Login from './components/login/Login';
 import LoginForm from './components/login/LoginForm';
-
+import styled from 'styled-components';
+import Header from './components/header/Header';
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,15 +14,20 @@ const App = () => {
   return (
     <Router>
       <Switch>
-
         <Route exact path="/">
           <Login />
         </Route>
-
         <Route path="/login">
           <LoginForm />
         </Route>
-
+        <AppBody>
+          <Switch>
+              <Route path="/homepage">
+              <Header/>
+              </Route>
+          </Switch>
+           
+        </AppBody>
       </Switch>
     </Router>
   );
@@ -29,7 +35,7 @@ const App = () => {
 
 export default App;
 
-// const AppBody = styled.div`
-//   display: flex;
-//   height: 100vh;
-// // `
+const AppBody = styled.div`
+  display: flex;
+  height: 100vh;
+ `

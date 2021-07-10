@@ -1,15 +1,16 @@
 import './LoginForm.css'
 import { useState } from 'react'
-import { errorMessage } from '../../utils/message'
+import { errorMessage, successMessage } from '../../utils/message'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginAsync, clearState } from '../../features/AuthSlice'
 import { useEffect } from 'react'
+import { useHistory } from 'react-router'
 
 const LoginForm = () => {
   //testing comment
   // built-in function ng redux para ma-dispatch yung laman na ipapasa mo galing sa formUser
   const dispatch = useDispatch();
-
+  const history= useHistory()
   //set initial state
   const [formUser, setFormUser] = useState({
     email: '',
@@ -39,13 +40,30 @@ const LoginForm = () => {
 
   }
 
+  const getRoute = (route) =>{ //Function for Back Button to go to Default Route
+ if (route ==="")
+ {
+history.push(route) 
+ }
+ if (route ==="register")
+ {
+history.push(route)
+ }
+  }
+
+
   // useEffect magttrigger after submit form
   useEffect(() => {
     if (errors.length > 0) {
       dispatch(clearState())
       errorMessage('Error!', errors[0])
+    } else{
+      if (isAuth !== false && authId !== null){
+        successMessage(`Well done', 'Successfully Login ${user.email}`,'')
+        history.push('/homepage')
+      }
     }
-  }, [dispatch, errors])
+  }, [dispatch, errors, isAuth, authId, user,history]) // Ibabato dito para ma triggr
 
   return (
     <div className="container">
@@ -80,6 +98,7 @@ const LoginForm = () => {
             <button
               type="button"
               className="cancel"
+              onClick= {()=> getRoute('')}
             >
               Back
             </button>
@@ -88,6 +107,7 @@ const LoginForm = () => {
               <button
                 type="button"
                 className="not-registered"
+                onClick= {()=> getRoute('register')}
               >
                 Signup now
               </button>
