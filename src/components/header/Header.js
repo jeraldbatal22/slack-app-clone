@@ -16,7 +16,7 @@ const Header = () => {
 
       <HeaderSearch>
         <Search />
-        <input type="text" placeholder={Search} />
+        <input type="text" />
       </HeaderSearch>
 
       <HeaderRight>
