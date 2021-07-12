@@ -59,7 +59,7 @@ history.push(route)
       errorMessage('Error!', errors[0])
     } else{
       if (isAuth !== false && authId !== null){
-        successMessage(`Well done', 'Successfully Login ${user.email}`,'')
+        successMessage(`Well done`, `Successfully Login ${user.email}`,'')
         history.push('/homepage')
       }
     }

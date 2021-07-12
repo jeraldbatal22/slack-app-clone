@@ -9,14 +9,6 @@ export const loginAsync = createAsyncThunk(
     return data
   }
 )
-//sadsad
-export const createChannelAsync = createAsyncThunk(
-  'channels/createChannelAsync',
-  async (payload) => {
-    const data = await axios.post('channels/', payload, true)
-    return data
-  }
-)
 
 const AuthSlice = createSlice({
   name: 'auth',
@@ -44,9 +36,7 @@ const AuthSlice = createSlice({
         state.authId = null
       }
     },
-    // setUser(state, action) {
-    //   storage.save(storage.AUTH_KEY, action.payload)
-    // }
+   
   },
   extraReducers: {
     [loginAsync.pending]: (state, action) => {
@@ -70,9 +60,7 @@ const AuthSlice = createSlice({
       state.errors = []
 
     },
-    [createChannelAsync.fulfilled]: (state, action) => {
-      console.log(state)
-    },
+   
   }
 })
 
