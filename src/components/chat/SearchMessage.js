@@ -11,7 +11,6 @@ const SearchMessage = () => {
   const dispatch = useDispatch()
   const [searchId, setSearchId] = useState('')
   const { messages } = useSelector(store => store)
-
   const onHandleChange = (e) => {
     setSearchId(e.target.value)
   }
@@ -47,7 +46,6 @@ const SearchMessage = () => {
           messages.directMsgList.length > 0 ?
           messages.directMsgList !== null ?
             messages.directMsgList.map((message, index) => (
-
               <MessageContainer key={index}>
                 <img src={defaultImage} alt='' />
                 <MessageInfo>

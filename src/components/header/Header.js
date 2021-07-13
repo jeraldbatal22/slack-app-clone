@@ -10,12 +10,14 @@ import { clearStateChannels } from "../../features/ChannelsSlice";
 import { clearStateChannelId } from "../../features/RoomSlice";
 import { clearStateRetrieveMessages } from "../../features/MessagesSlice";
 import { UsersListAsync } from "../../features/UsersSlice";
-
+import { successMessage } from "../../utils/message";
 const Header = () => {
   const dispatch = useDispatch()
   const history = useHistory()
-
   const { user } = useSelector((store) => store.auth)
+  const email = user.email
+  const newEmail = email.charAt(0).toUpperCase() + email.slice(1)
+
   const onHandleLogout = () => {
     storage.remove(storage.AUTH_KEY)
     storage.remove(storage.AUTH_TOKEN)
@@ -25,6 +27,7 @@ const Header = () => {
     dispatch(UsersListAsync())
     dispatch(getUser())
     history.push('/login')
+    successMessage('Success', 'Successfully logout')
   }
 
   const viewProfile = (e) => {
@@ -41,7 +44,7 @@ const Header = () => {
 
       <HeaderSearch>
         <Search />
-        <input type="text" placeholder={`Search ${user.email}`} />
+        <input type="text" placeholder={`Search ${newEmail}`} />
       </HeaderSearch>
 
       <HeaderRight>

@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { Button } from "@material-ui/core"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { fetchSendMessageToChannel, fetchRetrieveMessages } from "../../features/MessagesSlice"
 const ChatInput = ({ channelDetails, user, chatRef }) => {
@@ -18,12 +18,9 @@ const ChatInput = ({ channelDetails, user, chatRef }) => {
       receiver_class: 'Channel',
       body: inputMessage,
     }))
+    dispatch(fetchRetrieveMessages())
     setInputMessage('')
   }
-  useEffect(() => {
-    dispatch(fetchRetrieveMessages())
-  }, [dispatch])
-
 
   chatRef?.current?.scrollIntoView({
     behavior: 'smooth'

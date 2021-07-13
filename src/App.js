@@ -14,11 +14,11 @@ import LoginForm from './components/login/LoginForm'
 import Register from './components/register/Register'
 import { getUser } from './features/AuthSlice'
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { fetchRetrieveMessages } from './features/MessagesSlice';
 import { UsersListAsync } from './features/UsersSlice'
 import DirectMessage from './components/chat/DirectMessage';
-import UserProfile from './components/Users/UserProfile'
+import UserProfile from './components/users/UserProfile'
 import CreateMessage from './components/chat/CreateMessage';
 
 function App() {
@@ -55,6 +55,9 @@ function App() {
               <SideBar />
 
               <Switch>
+                {/* <Route path="/homepage">
+                  <HomePage />
+                </Route> */}
                 <Route path="/homepage">
                   <Chat />
                 </Route>
@@ -70,7 +73,7 @@ function App() {
               </Switch>
 
             </AppBody>
-            : <Redirect to="/createMessage"></Redirect>}
+            : <Redirect to="/homepage"></Redirect>}
 
         </Switch>
       </Router>

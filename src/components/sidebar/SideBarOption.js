@@ -40,7 +40,7 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
 
   const selectChannel = () => {
     if (titleId) {
-      history.push(`/createMessage`)
+      history.push(`/homepage/${titleId}`)
       return errorMessage('error', "This features is not available yet.")
     }
     if (id) {

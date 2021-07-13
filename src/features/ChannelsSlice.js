@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as axios from '../utils/axiosApi'
-
 export const channelsListAsync = createAsyncThunk(
   'channels/channelsListAsync',
   async () => {
@@ -8,6 +7,16 @@ export const channelsListAsync = createAsyncThunk(
     return data
   }
 )
+
+export const channelsListOwnedAsync = createAsyncThunk(
+  'channels/channelsListOwnedAsync',
+  async () => {
+    const data = await axios.get('channel/owned', true)
+    // console.log(data)
+    return data
+  }
+)
+
 
 export const addChannelAsync = createAsyncThunk(
   'channels/addChannelAsync',
@@ -38,6 +47,7 @@ const ChannelsSlice = createSlice({
   initialState: {
     status: false,
     list: [],
+    owned: [],
     errors: [],
     memberList: [],
   },
@@ -45,6 +55,7 @@ const ChannelsSlice = createSlice({
     clearStateChannels(state, action) {
       state.status = false
       state.list = []
+      state.owned = []
       state.memberList = []
       state.errors = []
       return state
@@ -57,6 +68,14 @@ const ChannelsSlice = createSlice({
         state.status = true
       } else {
         state.list = action.payload.data
+      }
+    },
+    [channelsListOwnedAsync.fulfilled]: (state, action) => {
+      state.owned = []
+      if (action.payload.hasOwnProperty('errors')) {
+        state.status = true
+      } else {
+        state.owned = action.payload.data
       }
     },
     [addChannelAsync.fulfilled]: (state, action) => {

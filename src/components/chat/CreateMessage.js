@@ -1,11 +1,10 @@
 import styled from "styled-components"
 import { Button } from "@material-ui/core"
-import { useDispatch, useSelector } from "react-redux"
-import { useRef, useState, useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { useState } from "react"
 import { errorMessage, successMessage } from "../../utils/message"
-import { fetchSendDirectMessage, clearStateRetrieveMessages } from "../../features/MessagesSlice"
+import { fetchSendDirectMessage } from "../../features/MessagesSlice"
 const CreateMessage = () => {
-  const chatRef = useRef(null)
   const dispatch = useDispatch()
 
   const [sendText, setSendText] = useState({

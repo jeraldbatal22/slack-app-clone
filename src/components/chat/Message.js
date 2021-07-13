@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { fetchRetrieveMessages } from "../../features/MessagesSlice"
 import defaultImage from '../../images/profile.jpg'
+
 const Message = ({ item, senderName }) => {
   const dispatch = useDispatch()
 

@@ -4,12 +4,15 @@ import SideBarOption from './SideBarOption'
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
-import { channelsListAsync } from "../../features/ChannelsSlice"
+import { channelsListAsync, channelsListOwnedAsync } from "../../features/ChannelsSlice"
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 const SideBar = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { auth, channels } = useSelector((store) => store)
+  const email = auth.user.email
+  const newEmail = email.charAt(0).toUpperCase() + email.slice(1)
 
   let [state, setstate] = useState(false)
   const showDirectMessage = () => {
@@ -23,6 +26,7 @@ const SideBar = () => {
 
   useEffect(() => {
     dispatch(channelsListAsync())
+    dispatch(channelsListOwnedAsync())
 
   }, [dispatch])
   return (
@@ -32,7 +36,7 @@ const SideBar = () => {
           <h2>Avion School</h2>
           <h3>
             <FiberManualRecord />
-            {auth.user.email}
+            {newEmail}
           </h3>
         </SideBarInfo>
         <CreateMessage onClick={createMessage} />
@@ -51,16 +55,33 @@ const SideBar = () => {
       <hr />
       <SideBarOption Icon={Add} addChannelOption title="Add Channel" />
       <hr />
+      <SideBarOption Icon={PeopleAltIcon} title="Channel you owned" />
+      <hr />
       {
-        (channels.list.map((item, index) => (
+        (channels.owned.map((item, index) => (
           <SideBarOption
             key={index}
             id={item.id}
             title={item.name}
-            channels={channels.list}
           />
         )))
       }
+      <hr />
+      <SideBarOption Icon={PeopleAltIcon} title="Channel you joined" />
+      {
+        (channels.list.map((item, index) => (
+          item.owner_id !== auth.authId &&
+          <SideBarOption
+            key={index}
+            id={item.id}
+            title={item.name}
+          />
+        )))
+
+      }
+
+
+
 
       {
         // user.directMessage.length ? (<SenderAvatar src={directMessage.senderImage} alt="" style={{ position: 'fixed', width: '30px' }} />) : ''
