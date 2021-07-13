@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { Button } from "@material-ui/core"
 import { useHistory } from "react-router-dom";
+import slackLogo from './../../images/slackLogo.png';
 
 
 const Login = () => {
@@ -16,9 +17,8 @@ const Login = () => {
   return (
     <LoginContainer>
       <LoginInnerContainer>
-        <img src="https://p.kindpng.com/picc/s/146-1461647_icon-slack-logo-hd-png-download.png" alt="slack" />
+        <img src={slackLogo} alt="slack" style={{width:'100px', marginTop: '-20px',marginBottom: '20px'}} />
         <h1>Sign in to the Slack App Clone</h1>
-        <p>slack.app.clone</p>
 
         <Button type="button" onClick={showLoginForm}>
           Sign in as User
@@ -36,6 +36,7 @@ const LoginContainer = styled.div`
   height: 100vh;
   display: grid;
   place-items: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 `
 
 const LoginInnerContainer = styled.div`
@@ -44,6 +45,10 @@ const LoginInnerContainer = styled.div`
   background: #fff;
   border-radius: 10px;
   box-shadow:0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+  >h1{
+    margin-top: 10px;
+  }
 
   > img {
     object-fit: contain;

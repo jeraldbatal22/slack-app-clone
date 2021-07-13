@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loginAsync, clearState } from '../../features/AuthSlice'
 import { useEffect } from 'react'
 import { useHistory } from 'react-router'
+import slackLogo from './../../images/slackLogo.png';
 
 const LoginForm = () => {
   //testing comment
@@ -68,6 +69,7 @@ history.push(route)
   return (
     <div className="container">
       <div className="login">
+        <img src={slackLogo} alt="slack" style={{width:'100px', marginTop: '-20px',marginBottom: '20px'}} />
         <div className="title">
           <span> Login Form</span>
         </div>
