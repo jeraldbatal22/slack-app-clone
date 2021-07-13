@@ -19,12 +19,12 @@ const AuthSlice = createSlice({
     authId: null
   },
   reducers: {
-    clearState(state, action) {
-      state.errors = []
-      state.isAuth = false
-      state.authId = null
-      return state
-    },
+    // clearState(state, action) { //clears yung State
+    //   state.errors = []
+    //   state.isAuth = false
+    //   state.authId = null
+    //   return state
+    // },
     getUser(state, action) {
       state.user = storage.get(storage.AUTH_KEY)
       state.errors = []

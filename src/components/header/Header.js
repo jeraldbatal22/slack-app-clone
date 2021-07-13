@@ -1,32 +1,49 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 import { Avatar } from '@material-ui/core'
 import {AccessTime, Search, HelpOutline} from '@material-ui/icons'
-import styled from 'styled-components'
-
+import * as storage from "../../utils/storage"
+import { getUser } from '../../features/AuthSlice';
+import { successMessage } from '../../utils/message';
 
 const Header = () => {
-    return (
-        <HeaderContainer>
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const onHandleLogout = (e) => {
+    e.preventDefault();
+    storage.remove(storage.AUTH_KEY); //removes auth key and token para ma-reset lahat ng data
+    storage.remove(storage.AUTH_TOKEN);
+    
+    dispatch(getUser()); //after remove ng data, pag tinawag yung getUser, wala nang data na mababasa kasi na-reset na
+    history.push('./login'); // mapupunta sa login page after logout
+    successMessage('Done!', 'Successfully logged out!');
+  }
+
+  return (
+    <HeaderContainer>
       <HeaderLeft>
-        <HeaderAvatar
-          alt=""
-        />
+        <HeaderAvatar alt="" />
         <AccessTime />
       </HeaderLeft>
 
       <HeaderSearch>
         <Search />
-        <input type="text" />
+          <input type="text" />
       </HeaderSearch>
 
       <HeaderRight>
         <HelpOutline />
+        <button onClick={onHandleLogout}> Logout </button>
       </HeaderRight>
-    </HeaderContainer>
-    )
+  </HeaderContainer>
+  )
 }
 
-export default Header
+export default Header;
+
 const HeaderContainer = styled.div`
   display:flex;
   position: fixed;
@@ -36,7 +53,7 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   background: var(--slack-color);
   color: #fff;
-`;
+`
 
 const HeaderLeft = styled.div`
   flex:0.3;
@@ -69,7 +86,6 @@ const HeaderAvatar = styled(Avatar)`
   :hover {
     opacity: 0.8;
   }
-
 `
 const HeaderSearch = styled.div`
   flex: 0.4;
@@ -88,8 +104,9 @@ const HeaderSearch = styled.div`
     min-width: 30vw;
     outline:0;
     color:#fff;
-}
+  }
 `
+
 const HeaderRight = styled.div`
   flex: 0.3;
   display: flex;
@@ -98,4 +115,18 @@ const HeaderRight = styled.div`
   > .MuiSvgIcon-root {
     margin-left:auto ;
     margin-right:20px;
-  }`
+  }
+  
+  > button {
+    cursor: pointer;
+    color: #fff;
+    font-weight: 750;
+    background: none;
+    border: none;
+    margin-right: 20px;
+  }
+
+  > button:hover {
+    opacity: 0.5;
+  }
+`

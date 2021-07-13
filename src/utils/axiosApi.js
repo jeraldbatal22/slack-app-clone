@@ -20,14 +20,20 @@ export const get = (url, config = false) => {
   return res
 }
 
-export const post = (url, data = {}, config = {}) => {
+export const post = (url, data = {}, config = false) => {
+  let header = {}
+  if (config === true) {
+    header = storage.get(storage.AUTH_TOKEN)
+    header = { ...header, cors: "no-cors", id: 34 }
+  }
   const res = axios.post(`${apiUrl}/${url}`, data, {
-    headers: config
+    headers: header
   }).then((res) => {
     if (url === 'auth/sign_in') {
       delete res.headers['cache-control']
       delete res.headers['content-type']
-      storage.save(storage.AUTH_TOKEN, res.headers)
+      delete res.headers['token-type']
+      storage.save(storage.AUTH_TOKEN, { ...res.headers, id: res.data.data.id })
     }
     return res.data
   }).catch((err) => {
