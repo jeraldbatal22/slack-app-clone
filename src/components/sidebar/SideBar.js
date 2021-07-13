@@ -1,96 +1,140 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import styled from "styled-components";
-import {    Create, FiberManualRecord, Add, ExpandMore,
-            InsertComment, Inbox, Drafts, BookmarkBorder,
-            FileCopy, PeopleAlt, Apps, ExpandLess, Message } from "@material-ui/icons";
-import SideBarOption from './SideBarOption';
+import styled from "styled-components"
+import { Create, FiberManualRecord, Add, ExpandMore, InsertComment, Inbox, Drafts, BookmarkBorder, FileCopy, PeopleAlt, Apps, ExpandLess, Message } from "@material-ui/icons"
+import SideBarOption from './SideBarOption'
+import { useSelector, useDispatch } from "react-redux"
+import { useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
+import { channelsListAsync } from "../../features/ChannelsSlice"
 
 const SideBar = () => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const { auth, channels } = useSelector((store) => store)
 
-const {channels} = useSelector(store => store); // useSelector para makuha yung channels data sa redux
+  let [state, setstate] = useState(false)
+  const showDirectMessage = () => {
+    history.push('/messages')
+    setstate(state = !state)
+  }
 
+  const createMessage = () => {
+    history.push('/createMessage')
+  }
+
+  useEffect(() => {
+    dispatch(channelsListAsync())
+
+  }, [dispatch])
   return (
     <SideBarContainer>
-      <div className="Channel">
-        <SideBarHeader>
+      <SideBarHeader>
         <SideBarInfo>
-            <h2>Avion School</h2>
-            <h3>
+          <h2>Avion School</h2>
+          <h3>
             <FiberManualRecord />
-            </h3>
+            {auth.user.email}
+          </h3>
         </SideBarInfo>
-        <Create />
-        </SideBarHeader>
+        <CreateMessage onClick={createMessage} />
+      </SideBarHeader>
+      <SideBarOption Icon={InsertComment} title="Threads" titleId="threads" />
+      <SideBarOption Icon={Inbox} title="Mentions & reactions" titleId="mention-reaction" />
+      <SideBarOption Icon={Drafts} title="Saved Items" titleId="save-items" />
+      <SideBarOption Icon={BookmarkBorder} title="Channel Browser" titleId="channel-browser" />
+      <SideBarOption Icon={PeopleAlt} title="People & user groups" titleId="people-user-groups" />
+      <SideBarOption Icon={Apps} title="apps" titleId="apps" />
+      <SideBarOption Icon={FileCopy} title="File Browser" titleId="file-browser" />
+      <SideBarOption Icon={ExpandLess} title="Show Less" titleId="showless" />
+      <hr />
+      <SideBarOption Icon={ExpandMore} title="Show More" titleId="showmore" />
+      <button onClick={showDirectMessage}> <SideBarOption Icon={Message} title="Direct Message" /></button>
+      <hr />
+      <SideBarOption Icon={Add} addChannelOption title="Add Channel" />
+      <hr />
+      {
+        (channels.list.map((item, index) => (
+          <SideBarOption
+            key={index}
+            id={item.id}
+            title={item.name}
+            channels={channels.list}
+          />
+        )))
+      }
 
-        {/* Options */}
-        <SideBarOption Icon={InsertComment} title="Threads" titleId="threads" />
-        <SideBarOption Icon={Inbox} title="Mentions & Reactions" titleId="mention-reaction" />
-        <SideBarOption Icon={Drafts} title="Saved Items" titleId="save-items" />
-        <SideBarOption Icon={BookmarkBorder} title="Channel Browser" titleId="channel-browser" />
-        <SideBarOption Icon={PeopleAlt} title="People & User Groups" titleId="people-user-groups" />
-        <SideBarOption Icon={Apps} title="Apps" titleId="apps" />
-        <SideBarOption Icon={FileCopy} title="File Browser" titleId="file-browser" />
-        <SideBarOption Icon={ExpandLess} title="Show Less" titleId="showless" />
-        <hr />
-        <SideBarOption Icon={ExpandMore} title="Show More" titleId="showmore" />
-        <hr />
+      {
+        // user.directMessage.length ? (<SenderAvatar src={directMessage.senderImage} alt="" style={{ position: 'fixed', width: '30px' }} />) : ''
 
-        <SideBarOption Icon={Add} addChannelOption title="Add Channel" />
-        { channels.list.map((channel, index) => ( //para ma-list lahat ng dinagdag na channel
-            <SideBarOption
-                key={index}
-                id={channel.id}
-                title={channel.name}/>
-            ))
-        }
-      </div>
+        // directMessage !== user.id ? (
+        //   <>
+        //     <SenderAvatar src={directMessage.senderImage} alt="" style={{ position: 'fixed', width: '30px' }} />
+        //     <SideBarOption title={`${directMessage.senderName} message you`} /></>)
+        //   : 'no'
+
+        // user.directMessage.map((message, index) => (
+        //   <div key={index}>
+        //     <SenderAvatar src={message.senderImage} alt="" style={{ position: 'fixed', width: '30px' }} />
+        //     <SideBarOption title={`${message.senderName} message you`} />
+        //   </div>
+        // ))
+      }
+
+
     </SideBarContainer>
-    )
-  }
-  
-  export default SideBar;
+  )
+}
 
-  const SideBarContainer = styled.div`
+export default SideBar
+
+const SideBarContainer = styled.div`
   background: var(--slack-color);
-  color: #fff;
+  color:#fff;
   flex: 0.3;
   border-top:1px solid #49274b;
   max-width: 260px;
   margin-top: 60px;
   overflow-y: scroll;
 
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: white;
-  }
 
   > hr {
     margin: 10px 0;
     border:1px solid #49274b;
   }
 
-  > button { 
+  >button { 
     background: none;
     border: none;
     color: #fff;
     width: 100%;
   }
-
-  > button:hover {
+  >button:hover {
     background: none;
   }
+
+  ::-webkit-scrollbar-thumb {
+  background: #49274b;
+  border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+  border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar {
+  width: 6px;
+  } 
 `
 // const SenderAvatar = styled(Avatar)`
 //   height: 25px;
 //   width: 25px;
 //   margin-left: 5px;
 //   cursor: pointer;
-
 // `
+
+const CreateMessage = styled(Create)`
+  cursor: pointer;
+ `
+
 const SideBarHeader = styled.div`
   display: flex;
   padding: 13px;
@@ -125,12 +169,8 @@ const SideBarInfo = styled.div`
     margin-right: 2px;
     color: green ;
   }
-`
-
-// const Channel = styled.div`
-//     overflow-y: scroll;
-// `
-
 /* > .MuiSvgIcon-root {
     color:green;
   } */
+
+`

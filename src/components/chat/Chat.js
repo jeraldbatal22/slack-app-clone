@@ -1,98 +1,117 @@
-import React from 'react'
-import { useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import PeopleIcon from '@material-ui/icons/People';
-import { StarBorder, InfoOutlined, Add, RoomOutlined } from '@material-ui/icons';
-
+import { StarBorder, InfoOutlined, Add } from '@material-ui/icons';
 import ChatInput from './ChatInput';
+import Message from './Message';
 import { errorMessage, successMessage } from '../../utils/message';
-import { addMemberToChannelAsync, viewMembersToChannelAsync } from '../../features/ChannelsSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { viewMembersToChannelAsync, addMemberToChannelAsync } from '../../features/ChannelsSlice';
+import PeopleIcon from '@material-ui/icons/People';
 
 const Chat = () => {
-  const chatRef = useRef(null);
-  const dispatch = useDispatch();
 
-  const { channels, roomId, users } = useSelector (store => store);
-  const channelDetails = channels.list.find(index => index.id === roomId.roomId);
-
+  const chatRef = useRef(null)
+  const dispatch = useDispatch()
+  let [isShow, setIsShow] = useState(false)
+  const { roomId, channels, messages, users } = useSelector(store => store)
+  const channelDetails = channels.list.find(id => id.id === roomId.roomId)
   const addMemberToChannel = () => {
-    const addMember = prompt('Enter User ID:');
-
-    //error validation
-    if (addMember==='') {
-      return errorMessage ('Error', 'Please enter User ID.')
+    const addMember = prompt("Enter User id number");
+    const index = channels.memberList.find(index => index.user_id === parseFloat(addMember))
+    if (addMember === '') {
+      return errorMessage('Error', 'Input channel id')
     }
-
+    if (index) {
+      return errorMessage('Error', `User id# ${addMember} is already member of ${channelDetails.name}`)
+    }
     if (addMember) {
+      if (addMember > users.list.length || isNaN(addMember) || addMember === '0') {
+        return errorMessage('Error', `Invalid user id`)
+      }
       dispatch(addMemberToChannelAsync({
-        member_id: parseFloat(addMember), //User ID of new member
-        id: channelDetails.id //Channel ID
+        member_id: parseFloat(addMember), // User ID of the new member user
+        id: channelDetails.id // Channel ID
       }))
-      return successMessage ('Success!', `Successfully added a member in this channel.`)
+      return successMessage('Success', 'Successfully and member in this channel')
     }
   }
 
-  let [isShow, setIsShow] = useState (false);
 
-  const viewmMembersToChannel = () => {
-    setIsShow(isShow=!isShow)
-    dispatch(viewMembersToChannelAsync(roomId.roomId))
+  const viewMembersToChannel = () => {
+    setIsShow(!isShow)
+    dispatch(viewMembersToChannelAsync(channelDetails.id))
   }
+
+  useEffect(() => {
+    chatRef?.current?.scrollIntoView({
+      behavior: 'smooth'
+    });
+  }, [roomId]) /// to scroll at the current chat when loading
 
   return (
     <ChatContainer>
-      {channelDetails &&
+      {channelDetails && (
         <>
           <Header>
             <HeaderLeft>
               <h4><strong></strong></h4>
               <StarBorder />
             </HeaderLeft>
-
+            <label><strong>Room Name:</strong> {channelDetails.name.toUpperCase()}</label>
             <HeaderRight>
               <p>
-              <InfoOutlined /> Details
+                <button type="button" onClick={viewMembersToChannel}><PeopleIcon /> View Members</button>
+                <button type="button" onClick={addMemberToChannel}><Add /> Add Member</button>
+                <InfoOutlined /> Details
               </p>
             </HeaderRight>
           </Header>
 
           <ChatMessages>
-            <button type="button" onClick={addMemberToChannel}><Add /> Add Member</button>
-            <button type="button" onClick={viewmMembersToChannel}><PeopleIcon /> View Members</button>
-              {
-                isShow &&
-                <table>
-                  <thead>
-                    <tr>
-                      <th>List</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      channels.memberList.map((member, index) => {
-                        const user = users.list.find((list) => 
-                          list.id === member.user_id
-                        )
-                        return (<tr key={index}>
-                          <td>{user.email}</td>
-                        </tr>)
-                      })
-                    }
-                  </tbody>
-                </table>
-              }
 
+            {
+              isShow &&
+              <table>
+                <thead>
+                  <tr>
+                    <th>{channelDetails.name} member list</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    channels.memberList &&
+                    channels.memberList.map((member, index) => {
+                      const user = users.list.find((list) =>
+                        list.id === member.user_id
+                      )
+                      return (<tr key={index}>
+                        <td>{user.uid}</td>
+                      </tr>)
+                    })
+                  }
+                </tbody>
+              </table>
+            }
+
+            {
+              messages.list ? (
+                messages.list !== null && roomId.roomId === channelDetails.id ?
+                  messages.list.map((item, index) => (
+                    <Message key={index} item={item} senderName={item.sender ? item.sender.email : ""} />
+                  ))
+                  : '') : ''
+            }
           </ChatMessages>
-          <ChatBottom ref = {chatRef}/>
-          <ChatInput  />
+          <ChatBottom ref={chatRef} />
+
+          <ChatInput chatRef={chatRef} channelDetails={channelDetails ? channelDetails : ''} />
         </>
-      }
+      )}
     </ChatContainer>
   )
 }
 
-export default Chat;
+export default Chat
 
 const ChatContainer = styled.div`
   flex: 0.7;
@@ -119,6 +138,7 @@ const HeaderLeft = styled.div`
     display: flex;
     margin-right: 10px;
   }
+
 `
 const HeaderRight = styled.div`
   > p {
@@ -131,19 +151,22 @@ const HeaderRight = styled.div`
     margin-right: 5px;
     font-size: 16px;
   }
+  > p > button {
+    /* position: fixed;
+    right: 0; */
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    float: right;
+    cursor: pointer;
+  }
+
 `
 
 const ChatMessages = styled.div`
   margin-top: 60px;
 
-  >button {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    margin-right: 20px;
-    float: right;
-  }
-
+ 
   >table {
     position: absolute;
     right: 0;
@@ -151,6 +174,7 @@ const ChatMessages = styled.div`
     margin-right: 150px;
     float: right;
     text-align:center;
+
   }
   > table tbody {
     margin: 0px 20px;

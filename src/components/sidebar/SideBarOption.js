@@ -1,71 +1,73 @@
-import React from 'react';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import styled from "styled-components";
-import { errorMessage, successMessage } from '../../utils/message';
-import { addChannelAsync } from '../../features/ChannelsSlice';
-import { enterRoom } from '../../features/RoomSlice';
+import styled from "styled-components"
+import { addChannelAsync, viewMembersToChannelAsync } from "../../features/ChannelsSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { useState } from "react"
+import { enterRoom } from "../../features/RoomSlice"
+import { errorMessage, successMessage } from "../../utils/message"
+import { fetchRetrieveMessages } from "../../features/MessagesSlice"
+import { useHistory } from "react-router-dom"
 
-const SideBarOption = ({ Icon, title, id, addChannelOption }) => {
-    const dispatch = useDispatch ();
-
-    const [addChannelState, setAddChannelState] = useState({ //initial state
-        name: '',
-        user_ids: []
-    })
-    
-    const addChannel = (e) => {
-        e.preventDefault();
-        const channelName= prompt('Please enter the channel name:');
-        // console.log('Add Channel');
-
-        //error validation
-        if (channelName==="") {
-            return errorMessage ('Error', 'Please enter a channel name.')
-        }
-        
-        if (channelName) {
-            if (channelName.length < 3 ) {
-                return errorMessage ('Error', 'Channel name is too short! Requires a minimum of 3 characters.')
-            } else {
-                setAddChannelState (addChannelState.name = channelName);
-                dispatch (addChannelAsync(addChannelState)); // binato yung channel data papunta kay redux
-            }
-            return errorMessage ('Error', 'Channel name has already been taken.')
-            // return successMessage ('Success', `Successfully added channel: ${channelName}.`)
-        }
+const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOption, titleId }) => {
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const [addChannelState, setAddChannelState] = useState({
+    name: '',
+    user_ids: []
+  })
+  const { channels } = useSelector(store => store)
+  const addChannel = () => {
+    const channelnName = prompt('please enter the channel name')
+    const find = channels.list.find(channelName => channelName.name === channelnName)
+    if (channelnName === "") {
+      return errorMessage('error', "Name can't be blank")
     }
-
-    const selectChannel = (e) => {
-        e.preventDefault();
-        
-        if (id) { //once mag-click ng channel, makukuha na yung ID ng channel
-            dispatch(enterRoom({
-              channelId: id
-            }))
-            console.log(id);
-            // dispatch(fetchRetrieveMessages(id))
-            // history.push(`/homepage`)
-        }
+    if (channelnName) {
+      if (channelnName.length < 3) {
+        return errorMessage('error', "Name is too short (3 characters minimu required)")
+      }
+      if (find) {
+        return errorMessage('error', "Channel name has already been taken")
+      }
+      else {
+        setAddChannelState(addChannelState.name = channelnName)
+        dispatch(addChannelAsync(
+          addChannelState
+        ))
+        return successMessage('success', `Successfully add channel ${channelnName.toLocaleUpperCase()}`)
+      }
     }
+  }
 
-    return (
-        <div>
-            <SideBarOptionContainer onClick={ addChannelOption ? addChannel : selectChannel }>
-                {/* pag may nabasa na icon, rereturn niya agad yung Icon */}
-                {Icon && <Icon fontSize="small" style={{ padding: "10px" }} />}
-                {Icon ? ( <h3> {title} </h3> ) : (  //kung walang icon na nabasa, pang-add channel yung display
-                <SideBarOptionChannel>
-                    <span>#</span> {title}
-                </SideBarOptionChannel>
-                )}
-            </SideBarOptionContainer>
-        </div>
-    )
+  const selectChannel = () => {
+    if (titleId) {
+      history.push(`/createMessage`)
+      return errorMessage('error', "This features is not available yet.")
+    }
+    if (id) {
+      dispatch(enterRoom({
+        channelId: id
+      }))
+      dispatch(fetchRetrieveMessages(id))
+      dispatch(viewMembersToChannelAsync(id))
+      history.push(`/homepage`)
+    }
+  }
+
+  return (
+    <SideBarOptionContainer onClick={addChannelOption ? addChannel : selectChannel}>
+      {Icon && <Icon fontSize="small" style={{ padding: "10px" }} />}
+      {Icon ? (
+        <h3>{title}</h3>
+      ) : (
+        <SideBarOptionChannel>
+          <span>#</span> {title}
+        </SideBarOptionChannel>
+      )}
+    </SideBarOptionContainer>
+  )
 }
 
-export default SideBarOption;
-
+export default SideBarOption
 
 const SideBarOptionContainer = styled.div`
   display: flex;
@@ -90,4 +92,5 @@ const SideBarOptionContainer = styled.div`
 const SideBarOptionChannel = styled.h3`
   padding: 10px 0;
   font-weight: 300;
+
 `

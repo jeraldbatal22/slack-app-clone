@@ -1,7 +1,20 @@
 * {
   margin: 0;
 }
+
 body {
-  --slack-color: #3f0f40;
-  overflow: hidden;
+  --slack-color:#3f0f40;
+  overflow:hidden;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

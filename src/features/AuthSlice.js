@@ -11,6 +11,7 @@ export const loginAsync = createAsyncThunk(
 )
 
 const AuthSlice = createSlice({
+
   name: 'auth',
   initialState: {
     user: null,
@@ -19,12 +20,12 @@ const AuthSlice = createSlice({
     authId: null
   },
   reducers: {
-    // clearState(state, action) { //clears yung State
-    //   state.errors = []
-    //   state.isAuth = false
-    //   state.authId = null
-    //   return state
-    // },
+    clearState(state, action) { //Reset to default value
+      state.errors = []
+      state.isAuth = false
+      state.authId = null
+      return state
+    },
     getUser(state, action) {
       state.user = storage.get(storage.AUTH_KEY)
       state.errors = []
@@ -36,8 +37,9 @@ const AuthSlice = createSlice({
         state.authId = null
       }
     },
-   
+
   },
+
   extraReducers: {
     [loginAsync.pending]: (state, action) => {
     },
@@ -58,9 +60,8 @@ const AuthSlice = createSlice({
       storage.save(storage.AUTH_KEY, state.user)
       storage.save(storage.AUTH_KEY, state.user)
       state.errors = []
-
     },
-   
+
   }
 })
 

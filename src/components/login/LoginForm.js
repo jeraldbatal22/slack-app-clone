@@ -6,12 +6,12 @@ import { loginAsync, clearState } from '../../features/AuthSlice'
 import { useEffect } from 'react'
 import { useHistory } from 'react-router'
 import slackLogo from './../../images/slackLogo.png';
+import { UsersListAsync } from '../../features/UsersSlice'
 
 const LoginForm = () => {
-  //testing comment
   // built-in function ng redux para ma-dispatch yung laman na ipapasa mo galing sa formUser
   const dispatch = useDispatch();
-  const history= useHistory()
+  const history = useHistory()
   //set initial state
   const [formUser, setFormUser] = useState({
     email: '',
@@ -41,35 +41,34 @@ const LoginForm = () => {
 
   }
 
-  const getRoute = (route) =>{ //Function for Back Button to go to Default Route
- if (route ==="")
- {
-history.push(route) 
- }
- if (route ==="register")
- {
-history.push(route)
- }
-  }
-
 
   // useEffect magttrigger after submit form
   useEffect(() => {
     if (errors.length > 0) {
       dispatch(clearState())
       errorMessage('Error!', errors[0])
-    } else{
-      if (isAuth !== false && authId !== null){
-        successMessage(`Well done`, `Successfully Login ${user.email}`,'')
+    } else {
+      if (isAuth !== false && authId !== null) {
+        dispatch(UsersListAsync())
+        successMessage('Successs!', `Welcome ${user.email}`)
         history.push('/homepage')
       }
     }
-  }, [dispatch, errors, isAuth, authId, user,history]) // Ibabato dito para ma triggr
+  }, [errors, user, authId, dispatch, history, isAuth]) // Ibabato dito para ma triggr
+
+  const getRoute = (route) => { //Function for Back Button to go to Default Route
+    if (route === "") {
+      history.push(route)
+    }
+    if (route === "register") {
+      history.push(route)
+    }
+  }
 
   return (
     <div className="container">
       <div className="login">
-        <img src={slackLogo} alt="slack" style={{width:'100px', marginTop: '-20px',marginBottom: '20px'}} />
+        <img src={slackLogo} alt="slack" style={{ width: '100px', marginTop: '-20px', marginBottom: '20px' }} />
         <div className="title">
           <span> Login Form</span>
         </div>
@@ -80,7 +79,7 @@ history.push(route)
               type="text"
               placeholder="Email"
               name="email"
-              onChange={onHandleChange}/>
+              onChange={onHandleChange} />
           </div>
           <div className="row">
             <input
@@ -88,7 +87,7 @@ history.push(route)
               placeholder="Password"
               name="password"
               autoComplete="off"
-              onChange={onHandleChange}/>
+              onChange={onHandleChange} />
           </div>
 
           <div className="row button">
@@ -100,7 +99,7 @@ history.push(route)
             <button
               type="button"
               className="cancel"
-              onClick= {()=> getRoute('')}
+              onClick={() => getRoute('')}
             >
               Back
             </button>
@@ -109,7 +108,7 @@ history.push(route)
               <button
                 type="button"
                 className="not-registered"
-                onClick= {()=> getRoute('register')}
+                onClick={() => getRoute('register')}
               >
                 Signup now
               </button>

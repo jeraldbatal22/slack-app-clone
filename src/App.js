@@ -1,67 +1,87 @@
 import './App.css';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import styled from 'styled-components';
-
-import Login from './components/login/Login';
-import LoginForm from './components/login/LoginForm';
-import Header from './components/header/Header';
-import Register from './components/register/Register';
 import SideBar from './components/sidebar/SideBar';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
+import Header from './components/header/Header.js'
 import Chat from './components/chat/Chat';
-import { getUser } from './features/AuthSlice';
-import { channelsListAsync } from './features/ChannelsSlice';
-import { UsersListAsync } from './features/UsersSlice';
+import Login from './components/login/Login';
+import LoginForm from './components/login/LoginForm'
+import Register from './components/register/Register'
+import { getUser } from './features/AuthSlice'
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { fetchRetrieveMessages } from './features/MessagesSlice';
+import { UsersListAsync } from './features/UsersSlice'
+import DirectMessage from './components/chat/DirectMessage';
+import UserProfile from './components/Users/UserProfile'
+import CreateMessage from './components/chat/CreateMessage';
 
+function App() {
 
-const App = () => {
-  const dispatch = useDispatch(); //
-  
+  const dispatch = useDispatch()
+
   const { isAuth, authId } = useSelector(({ auth }) => auth)
-
   useEffect(() => {
-    dispatch(UsersListAsync());
-    dispatch(channelsListAsync());
-    dispatch(getUser()); //priority getUser 
+    dispatch(getUser())
+    dispatch(fetchRetrieveMessages())
+    dispatch(UsersListAsync())
   }, [dispatch])
-  
 
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <Login/>
-        </Route>
+    <div className="App">
 
-        <Route path="/login">
-          <LoginForm />
-        </Route>
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Login />
+          </Route>
 
-        <Route path="/register">
-          <Register/>
-        </Route>
+          <Route exact path="/register">
+            <Register />
+          </Route>
 
-        { isAuth && authId !== null ? ( //Condition if the User is already Login 
+          <Route path="/login">
+            <LoginForm />
+          </Route>
+
+          {(isAuth && authId !== null) ?
             <AppBody>
-              <Header/>
-              <SideBar/>
-                <Switch>
-                  <Route path="/homepage">
-                    <Chat/>
-                  </Route>
-                </Switch>
+              <Header />
+              <SideBar />
+
+              <Switch>
+                <Route path="/homepage">
+                  <Chat />
+                </Route>
+                <Route path="/messages">
+                  <DirectMessage />
+                </Route>
+                <Route path="/createMessage">
+                  <CreateMessage />
+                </Route>
+                <Route path="/profile">
+                  <UserProfile />
+                </Route>
+              </Switch>
+
             </AppBody>
-        ) : <Redirect to ="/homepage"/>
-        }
-      </Switch>
-    </Router>
+            : <Redirect to="/createMessage"></Redirect>}
+
+        </Switch>
+      </Router>
+    </div>
   );
 }
 
 export default App;
 
+
 const AppBody = styled.div`
   display: flex;
   height: 100vh;
-`
+ `

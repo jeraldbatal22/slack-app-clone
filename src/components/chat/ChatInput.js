@@ -1,24 +1,45 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Button } from '@material-ui/core';
+import styled from "styled-components"
+import { Button } from "@material-ui/core"
+import { useState, useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { fetchSendMessageToChannel, fetchRetrieveMessages } from "../../features/MessagesSlice"
+const ChatInput = ({ channelDetails, user, chatRef }) => {
+  const dispatch = useDispatch()
+  const [inputMessage, setInputMessage] = useState('')
 
-const ChatInput = () => {
-
-  const onHandleSend = () => {
-
+  const onHandleChange = (e) => {
+    const value = e.target.value
+    setInputMessage(value)
   }
+  const onHandleSend = (e) => {
+    e.preventDefault()
+    dispatch(fetchSendMessageToChannel({
+      receiver_id: channelDetails.id,
+      receiver_class: 'Channel',
+      body: inputMessage,
+    }))
+    setInputMessage('')
+  }
+  useEffect(() => {
+    dispatch(fetchRetrieveMessages())
+  }, [dispatch])
 
+
+  chatRef?.current?.scrollIntoView({
+    behavior: 'smooth'
+  });
   return (
     <ChatInputContainer>
       <form>
-        <input type="text"/>
-        <Button onClick={onHandleSend} type="submit"> SEND </Button>
+        <input type="text" value={inputMessage} name="body" placeholder={`Message # ${channelDetails && channelDetails.name.toLocaleUpperCase()}`} onChange={onHandleChange} autoComplete="off" />
+        <Button onClick={onHandleSend} type="submit">SEND</Button>
       </form>
     </ChatInputContainer>
   )
 }
 
-export default ChatInput;
+export default ChatInput
+
 
 const ChatInputContainer = styled.div`
   border-radius: 20px;
@@ -41,4 +62,3 @@ const ChatInputContainer = styled.div`
     display: none ;
   }
 `
-

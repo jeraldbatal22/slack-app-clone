@@ -4,6 +4,7 @@ import RegisterSlice from "../features/RegisterSlice";
 import ChannelsSlice from "../features/ChannelsSlice";
 import RoomSlice from "../features/RoomSlice";
 import UsersSlice from "../features/UsersSlice";
+import MessagesSlice from "../features/MessagesSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
     register: RegisterSlice,
     channels: ChannelsSlice,
     roomId: RoomSlice,
-    users: UsersSlice
+    users: UsersSlice,
+    messages: MessagesSlice,
   }
 })
 
