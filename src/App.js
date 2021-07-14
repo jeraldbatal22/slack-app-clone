@@ -20,16 +20,20 @@ import { UsersListAsync } from './features/UsersSlice'
 import DirectMessage from './components/chat/DirectMessage';
 import UserProfile from './components/users/UserProfile'
 import CreateMessage from './components/chat/CreateMessage';
+import { channelsListOwnedAsync } from './features/ChannelsSlice'
 
 function App() {
 
   const dispatch = useDispatch()
 
   const { isAuth, authId } = useSelector(({ auth }) => auth)
+
   useEffect(() => {
     dispatch(getUser())
     dispatch(fetchRetrieveMessages())
     dispatch(UsersListAsync())
+    dispatch(channelsListOwnedAsync())
+
   }, [dispatch])
 
   return (

@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { viewMembersToChannelAsync, addMemberToChannelAsync } from '../../features/ChannelsSlice';
 import PeopleIcon from '@material-ui/icons/People';
-
 const Chat = () => {
 
   const chatRef = useRef(null)
@@ -61,7 +60,7 @@ const Chat = () => {
               <h4><strong></strong></h4>
               <StarBorder />
             </HeaderLeft>
-            <label><strong>Room Name:</strong> {channelDetails.name.toUpperCase()}</label>
+            <label><strong>ROOM</strong> {channelDetails.name.toUpperCase()}</label>
             <HeaderRight>
               <p>
                 <button type="button" onClick={viewMembersToChannel}><PeopleIcon /> View Members</button>
@@ -102,7 +101,7 @@ const Chat = () => {
               messages.list ? (
                 messages.list !== null && roomId.roomId === channelDetails.id ?
                   messages.list.map((item, index) => (
-                    <Message key={index} item={item} senderName={item.sender ? item.sender.email : ""} />
+                    <Message key={index} item={item} senderName={item.sender ? item.sender.email : "Me"} />
                   ))
                   : '') : ''
             }
@@ -133,6 +132,10 @@ const Header = styled.div`
   justify-content: space-between;
   padding: 20px;
   border-bottom: 1px solid lightgray;
+  
+  label {
+    margin-top: 10px;
+  }
 `
 
 const HeaderLeft = styled.div`

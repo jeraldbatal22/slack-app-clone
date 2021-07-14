@@ -27,8 +27,8 @@ const SideBar = () => {
   useEffect(() => {
     dispatch(channelsListAsync())
     dispatch(channelsListOwnedAsync())
-
   }, [dispatch])
+
   return (
     <SideBarContainer>
       <SideBarHeader>

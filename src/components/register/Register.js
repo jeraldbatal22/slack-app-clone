@@ -1,29 +1,29 @@
-import './Register.css'
 import { useState, useEffect } from 'react'
-import { errorMessage, successMessage } from '../../utils/message'
-import { useDispatch } from 'react-redux'
-import { fetchRegisterAsync, clearState } from '../../features/RegisterSlice'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
+import { fetchRegisterAsync, clearState } from '../../features/RegisterSlice'
+import { errorMessage, successMessage } from '../../utils/message'
 const Register = () => {
 
   const history = useHistory()
   const dispatch = useDispatch()
-  const [newUser, setNewUser] = useState({  //Setting up the state
+
+  const { status, errors, data } = useSelector(({ register }) => register)
+
+  //Setting up the state for register
+  const [newUser, setNewUser] = useState({
     email: '',
     password: '',
     confirmPassword: ''
   })
 
-  const onHandleChange = (e) => {  //Function for storing the changes in the input field
+  const onHandleChange = (e) => {
     const { name, value } = e.target
     newUser[name] = value
     setNewUser(newUser)
   }
 
-  const { status, errors, data } = useSelector(({ register }) => register)
-
-  const onHandleSubmit = (e) => {  //Function for storing the data when being clicked
+  const onHandleSubmit = (e) => {
     e.preventDefault()
     if (newUser.email === "") {
       return errorMessage('Error', 'Please input email')
@@ -40,24 +40,23 @@ const Register = () => {
     dispatch(fetchRegisterAsync(newUser))
   }
 
-  const backToHome = () => {//Function for Back button to go back on the default page
+  // Back to default route "/"
+  const backToHome = () => {
     history.push('/')
   }
 
-
-  useEffect(() => { // useEffect magttrigger after submit form
+  //Triggred first when submitting the form
+  useEffect(() => {
     if (errors.length > 0 && status !== null) {
-      dispatch(clearState())  //Para bumalik to normal state which is the default is *null 
+      dispatch(clearState())  // reset to default value from redux
       return errorMessage('Error', `${errors}`)
     } else {
       if (data !== null) {
         successMessage('Successs!', `Successfully registered`)
         history.push('/login')
       }
-
     }
-  }, [errors, status, dispatch, history, data])      // Ibabato dito para ma triggr
-
+  }, [errors, status, dispatch, history, data])
 
   return (
     <div className="container">

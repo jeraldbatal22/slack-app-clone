@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as axios from '../utils/axiosApi'
 
-export const fetchRetrieveMessages = createAsyncThunk(
+export const fetchRetrieveMessages = createAsyncThunk( // throwing data to redux
   'messages/fetchRetrieveMessages',
   async (payload) => {
     try {
@@ -17,14 +17,15 @@ export const fetchSendMessageToChannel = createAsyncThunk(
   'messages/fetchSendMessageToChannel',
   async (payload) => {
     const data = await axios.post(`messages`, payload, true) // POST messages data ask per channel id from api axios axiosApi.js
+    console.log(data)
     return data
-
   }
 )
 
 export const fetchSendDirectMessage = createAsyncThunk(
   'messages/fetchSendDirectMessage',
   async (payload) => {
+    console.log(payload)
     const data = await axios.post(`messages`, payload, true) // POST send messages data to user id from api axios axiosApi.js
     console.log(data)
     return data
@@ -36,7 +37,6 @@ export const fetchDirectMessageToUser = createAsyncThunk(
   async (payload) => {
     try {
       const data = await axios.get(`messages?receiver_class=User&receiver_id=${payload}`, true) // GET all messages data per user id from api axios axiosApi.js
-      console.log(data)
       return data
     } catch (err) {
       return { error: false }
@@ -52,14 +52,19 @@ const RetrieveMessagesSlice = createSlice({
     list: null,
     directMsgList: [],
   },
+
   reducers: {
     clearStateRetrieveMessages: (state, { payload }) => {
       state.error = false
       state.status = null
       state.list = null
-      state.directMsgList = null
+      state.directMsgList = []
+    },
+    clearDirectMessage: (state, { payload }) => {
+      state.directMsgList = []
     }
   },
+
   extraReducers: {
     [fetchRetrieveMessages.fulfilled]: (state, action) => {
       if (action.payload.hasOwnProperty('errors')) {
@@ -90,5 +95,5 @@ const RetrieveMessagesSlice = createSlice({
   },
 })
 
-export const { clearStateRetrieveMessages } = RetrieveMessagesSlice.actions
+export const { clearStateRetrieveMessages, clearDirectMessage } = RetrieveMessagesSlice.actions
 export default RetrieveMessagesSlice.reducer

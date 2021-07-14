@@ -1,15 +1,11 @@
-import styled from "styled-components"
-import { Button } from "@material-ui/core"
 import { useHistory } from "react-router-dom";
+import { Button } from "@material-ui/core"
+import styled from "styled-components"
 import slackLogo from './../../images/slackLogo.png';
 
 
 const Login = () => {
-
-  //built-in function ng react-router-dom for redirection of url path 
   const history = useHistory();
-
-  //once i-click yung button mapupunta sa /login path
   const showLoginForm = () => {
     history.push('/login')
   }
@@ -17,7 +13,7 @@ const Login = () => {
   return (
     <LoginContainer>
       <LoginInnerContainer>
-        <img src={slackLogo} alt="slack" style={{width:'100px', marginTop: '-20px',marginBottom: '20px'}} />
+        <img src={slackLogo} alt="slack" />
         <h1>Sign in to the Slack App Clone</h1>
 
         <Button type="button" onClick={showLoginForm}>
@@ -46,24 +42,20 @@ const LoginInnerContainer = styled.div`
   border-radius: 10px;
   box-shadow:0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
-  >h1{
-    margin-top: 10px;
-  }
-
-  > img {
+  img {
     object-fit: contain;
     height: 100px;
-    margin-bottom: 40px;
+    margin-bottom: 70px;
   }
 
-  > button {
+  button {
     margin-top:50px;
     text-transform: inherit !important;
     background: #0a8d48;
     color:#fff;
   }
 
-  > button:hover {
+  button:hover {
     background: gray;
   }
 `

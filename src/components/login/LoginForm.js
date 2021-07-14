@@ -1,32 +1,30 @@
-import './LoginForm.css'
-import { useState } from 'react'
-import { errorMessage, successMessage } from '../../utils/message'
-import { useDispatch, useSelector } from 'react-redux'
-import { loginAsync, clearState } from '../../features/AuthSlice'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
+import { useDispatch, useSelector } from 'react-redux'
 import slackLogo from './../../images/slackLogo.png';
+import { errorMessage, successMessage } from '../../utils/message'
+import { loginAsync, clearState } from '../../features/AuthSlice'
 import { UsersListAsync } from '../../features/UsersSlice'
 
 const LoginForm = () => {
-  // built-in function ng redux para ma-dispatch yung laman na ipapasa mo galing sa formUser
+  // To triggred state change. With React Redux, your components never access the store directly.
   const dispatch = useDispatch();
-  const history = useHistory()
-  //set initial state
-  const [formUser, setFormUser] = useState({
-    email: '',
-    password: '',
-  })
 
-  // useSelector para makuha mo yung data sa redux
+  // redirect pathing
+  const history = useHistory()
+
+  //set initial state for login
+  const [formUser, setFormUser] = useState({ email: '', password: '' })
+
+  // useSelector to get access the data in redux
   const { errors, isAuth, authId, user } = useSelector(({ auth }) => auth);
+
   const onHandleChange = (e) => {
     const { name, value } = e.target
     formUser[name] = value
     setFormUser({ ...formUser })
   }
 
-  //error validation
   const onHandleSubmit = (e) => {
     e.preventDefault();
     if (formUser.email === "") {
@@ -35,14 +33,13 @@ const LoginForm = () => {
     if (formUser.password === "") {
       return errorMessage('error', 'Please input password')
     }
-    dispatch(loginAsync({ //ibabato yung laman ng form users data to redux
-      ...formUser
-    }))
+
+    // send data to redux and compare to api if exist?
+    dispatch(loginAsync({ ...formUser }))
 
   }
 
-
-  // useEffect magttrigger after submit form
+  // triggred first when submitting the form
   useEffect(() => {
     if (errors.length > 0) {
       dispatch(clearState())
@@ -54,15 +51,12 @@ const LoginForm = () => {
         history.push('/homepage')
       }
     }
-  }, [errors, user, authId, dispatch, history, isAuth]) // Ibabato dito para ma triggr
+  }, [errors, user, authId, dispatch, history, isAuth])
 
-  const getRoute = (route) => { //Function for Back Button to go to Default Route
-    if (route === "") {
-      history.push(route)
-    }
-    if (route === "register") {
-      history.push(route)
-    }
+  //Function for Back and register to go to Default Route
+  const getRoute = (route) => {
+    route === "" && history.push(route)
+    route === "register" && history.push(route)
   }
 
   return (
@@ -81,6 +75,7 @@ const LoginForm = () => {
               name="email"
               onChange={onHandleChange} />
           </div>
+
           <div className="row">
             <input
               type="password"
@@ -95,6 +90,7 @@ const LoginForm = () => {
               Login
             </button>
           </div>
+
           <div className="row button back">
             <button
               type="button"

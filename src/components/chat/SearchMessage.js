@@ -1,15 +1,13 @@
-import React, { useRef } from 'react'
-import { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { fetchDirectMessageToUser } from "../../features/MessagesSlice"
 import styled from 'styled-components'
 import defaultImage from '../../images/profile.jpg'
-import { useEffect } from 'react'
 
-const SearchMessage = () => {
+const SearchMessage = ({ searchId, setSearchId }) => {
+  const [state, setstate] = useState(false)
   const chatRef = useRef(null)
   const dispatch = useDispatch()
-  const [searchId, setSearchId] = useState('')
   const { messages } = useSelector(store => store)
   const onHandleChange = (e) => {
     setSearchId(e.target.value)
@@ -18,53 +16,46 @@ const SearchMessage = () => {
   const onHandleSearch = (e) => {
     e.preventDefault()
     dispatch(fetchDirectMessageToUser(parseFloat(searchId)))
-    setSearchId('')
+    setstate(true)
   }
 
-  useEffect(() => {
-    chatRef?.current?.scrollIntoView({
-      behavior: 'smooth'
-    });
-  }, [searchId]) /// to scroll at the current chat when loading
+  chatRef?.current?.scrollIntoView({
+    behavior: 'smooth'
+  });
+
+
   return (
     <FormContainer onSubmit={onHandleSearch}>
       <HeaderSearch>
         <h1>Search Conversation</h1>
 
         <input
+          ref={chatRef}
           className="maker__name"
           type="number"
           placeholder="Input User Id"
-          value={searchId}
           onChange={onHandleChange}
         />
 
-        <button type="submit" className="maker__action"  >submit</button>
+        <button ref={chatRef} type="submit" className="maker__action"  >submit</button>
       </HeaderSearch>
+
       {
-        messages.directMsgList &&
+        state &&
+          messages.directMsgList &&
           messages.directMsgList.length > 0 ?
-          messages.directMsgList !== null ?
-            messages.directMsgList.map((message, index) => (
-              <MessageContainer key={index}>
-                <img src={defaultImage} alt='' />
-                <MessageInfo>
-                  <h4>
-                    {
-                      messages.length > 0 ? message.sender.email : 'Unknow user'
-                    }
-                    {/* {message.sender.email} */}
-                    <span>
-                      {message.created_at}
-                    </span>
-                  </h4>
-                  <p>{message.body}</p>
-
-                </MessageInfo>
-
-              </MessageContainer>
-            ))
-            : <h1>No conversation found</h1>
+          messages.directMsgList.map((message, index) => (
+            <MessageContainer key={index}>
+              <img src={defaultImage} alt='' />
+              <MessageInfo>
+                <h4>
+                  {message.sender ? message.sender.email : "Me"}
+                  <span>{message.created_at}</span>
+                </h4>
+                <p>{message.body}</p>
+              </MessageInfo>
+            </MessageContainer>
+          ))
           : <h1>No conversation found</h1>
       }
       <ChatBottom ref={chatRef} />
@@ -77,11 +68,7 @@ export default SearchMessage
 
 const FormContainer = styled.form`
  > h1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 75vh;
-    font-size: 3rem;
+   margin-left: 20px;
   }
 `
 
@@ -91,14 +78,19 @@ const HeaderSearch = styled.div`
   position: absolute;
   justify-content: center;
   align-items: center;
-  width: 120%;
-  margin: auto;
-  
+  width: 80%;
+  margin-top: 77px;
+  margin-right: 160px;
+  top: 0;
+  >h1 {
+    font-size: 1.5rem;
+  }
   >button {
     margin-bottom: 200px;
     display: none;
   }
   >input {
+    margin-top: 10px;
     padding: 5px 10px;
     text-align: center;
   }
@@ -114,7 +106,6 @@ const MessageContainer = styled.div`
     height: 45px;
     border-radius: 999px;
   }
- 
 `
 
 const MessageInfo = styled.div`

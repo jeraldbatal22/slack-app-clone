@@ -30,6 +30,7 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
       }
       else {
         setAddChannelState(addChannelState.name = channelnName)
+        setAddChannelState({ ...addChannelState, name: '' })
         dispatch(addChannelAsync(
           addChannelState
         ))
@@ -49,6 +50,7 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
       }))
       dispatch(fetchRetrieveMessages(id))
       dispatch(viewMembersToChannelAsync(id))
+
       history.push(`/homepage`)
     }
   }

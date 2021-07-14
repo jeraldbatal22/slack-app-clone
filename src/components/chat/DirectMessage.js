@@ -10,11 +10,13 @@ import SearchMessage from './SearchMessage'
 const DirectMessage = () => {
   const chatRef = useRef(null)
   const dispatch = useDispatch()
+  const [searchId, setSearchId] = useState()
 
   const [sendText, setSendText] = useState({
     message: '',
     receiver_id: ''
   })
+
   const onHandleChange = (e) => {
     const { name, value } = e.target
     sendText[name] = value
@@ -23,22 +25,24 @@ const DirectMessage = () => {
 
   const onHandleSend = (e) => {
     e.preventDefault()
-    if (sendText.messages === '' || sendText.receiver_id === '') {
+    if (sendText.messages === '') {
       return errorMessage('Error', "Invalid Reciever")
     } else {
       dispatch(fetchSendDirectMessage({
-        receiver_id: parseFloat(sendText.receiver_id),
+        receiver_id: parseFloat(searchId),
         receiver_class: 'User',
         body: sendText.message
       }))
       setSendText({
         ...sendText,
         message: '',
-        receiver_id: ''
       })
     }
-
   }
+
+  chatRef?.current?.scrollIntoView({
+    behavior: 'smooth'
+  });
 
   return (
     <ChatContainer>
@@ -55,13 +59,12 @@ const DirectMessage = () => {
         </HeaderRight>
       </Header>
       <ChatMessages>
-        <SearchMessage />
+        <SearchMessage searchId={searchId} setSearchId={setSearchId} />
       </ChatMessages>
       <ChatBottom ref={chatRef} />
       <ChatInputContainer>
         <form onSubmit={onHandleSend}>
-          <input type="text" name="message" placeholder="Send a message" value={sendText.message} autoComplete="off" onChange={onHandleChange} />
-          <input type="number" name="receiver_id" value={sendText.receiver_id} placeholder="Receiver Id" autoComplete="off" onChange={onHandleChange} />
+          <input ref={chatRef} type="text" name="message" placeholder="Send a message" value={sendText.message} autoComplete="off" onChange={onHandleChange} />
           <Button type="submit">SEND</Button>
         </form>
       </ChatInputContainer>
@@ -85,7 +88,7 @@ const ChatInputContainer = styled.div`
   }
   >form input {
     bottom: 30px;
-    /* width: 100%; */
+    width: 100%;
     margin: 20px;
     border: 1px solid gray;
     padding: 20px;
@@ -108,7 +111,7 @@ const Header = styled.div`
   position: fixed;
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  padding: 40px;
   border-bottom: 1px solid lightgray;
 `
 
@@ -136,7 +139,7 @@ const HeaderRight = styled.div`
 `
 
 const ChatMessages = styled.div`
-  margin-top: 60px;
+  margin-top: 110px;
   >table {
     margin-top: 20px;
     margin-right: 30px;
