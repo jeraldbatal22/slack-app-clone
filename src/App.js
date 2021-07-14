@@ -55,9 +55,6 @@ function App() {
               <SideBar />
 
               <Switch>
-                {/* <Route path="/homepage">
-                  <HomePage />
-                </Route> */}
                 <Route path="/homepage">
                   <Chat />
                 </Route>

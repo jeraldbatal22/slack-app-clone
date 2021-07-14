@@ -58,7 +58,6 @@ const AuthSlice = createSlice({
       state.authId = action.payload.data.id
       state.user = action.payload.data
       storage.save(storage.AUTH_KEY, state.user)
-      storage.save(storage.AUTH_KEY, state.user)
       state.errors = []
     },
 

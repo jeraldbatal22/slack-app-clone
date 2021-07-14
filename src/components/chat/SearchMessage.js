@@ -50,7 +50,10 @@ const SearchMessage = () => {
                 <img src={defaultImage} alt='' />
                 <MessageInfo>
                   <h4>
-                    {message.sender.email}
+                    {
+                      messages.length > 0 ? message.sender.email : 'Unknow user'
+                    }
+                    {/* {message.sender.email} */}
                     <span>
                       {message.created_at}
                     </span>

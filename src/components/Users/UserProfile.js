@@ -1,14 +1,22 @@
 import styled from "styled-components"
 import { useSelector } from "react-redux"
 const UserProfile = () => {
-  const { user } = useSelector(store => store.auth)
+  const { auth, users } = useSelector(store => store)
   return (
     <ChatContainer>
       <h1>Account Profile</h1>
-      <div>
-        <label><strong>Id:</strong>{user.id}</label>
-        <label><strong>Email:</strong>{user.email}</label>
-      </div>
+
+      {
+        users.idSearch ?
+          <div>
+            <label><strong>Id:</strong>{users.idSearch.id}</label>
+            <label><strong>Email:</strong>{users.idSearch.email}</label>
+          </div>
+          : <div>
+            <label><strong>Id:</strong>{auth.user.id}</label>
+            <label><strong>Email:</strong>{auth.user.email}</label>
+          </div>
+      }
     </ChatContainer>
   )
 }

@@ -81,7 +81,6 @@ const RetrieveMessagesSlice = createSlice({
         const newMessage = action.payload.data
         state.directMsgList.push(newMessage)
       }
-
     },
 
     [fetchDirectMessageToUser.fulfilled]: (state, action) => {

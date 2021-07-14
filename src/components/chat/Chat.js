@@ -13,10 +13,12 @@ const Chat = () => {
   const chatRef = useRef(null)
   const dispatch = useDispatch()
   let [isShow, setIsShow] = useState(false)
-  const { roomId, channels, messages, users } = useSelector(store => store)
+  const { roomId, channels, messages, users, auth } = useSelector(store => store)
   const channelDetails = channels.list.find(id => id.id === roomId.roomId)
+
   const addMemberToChannel = () => {
     const addMember = prompt("Enter User id number");
+
     const index = channels.memberList.find(index => index.user_id === parseFloat(addMember))
     if (addMember === '') {
       return errorMessage('Error', 'Input channel id')
@@ -25,17 +27,19 @@ const Chat = () => {
       return errorMessage('Error', `User id# ${addMember} is already member of ${channelDetails.name}`)
     }
     if (addMember) {
+
       if (addMember > users.list.length || isNaN(addMember) || addMember === '0') {
         return errorMessage('Error', `Invalid user id`)
       }
-      dispatch(addMemberToChannelAsync({
-        member_id: parseFloat(addMember), // User ID of the new member user
-        id: channelDetails.id // Channel ID
-      }))
+
+      if (addMember)
+        dispatch(addMemberToChannelAsync({
+          member_id: parseFloat(addMember), // User ID of the new member user
+          id: channelDetails.id // Channel ID
+        }))
       return successMessage('Success', 'Successfully and member in this channel')
     }
   }
-
 
   const viewMembersToChannel = () => {
     setIsShow(!isShow)
@@ -61,7 +65,8 @@ const Chat = () => {
             <HeaderRight>
               <p>
                 <button type="button" onClick={viewMembersToChannel}><PeopleIcon /> View Members</button>
-                <button type="button" onClick={addMemberToChannel}><Add /> Add Member</button>
+                {(channelDetails.owner_id === auth.authId) && <button type="button" onClick={addMemberToChannel}><Add /> Add Member</button>}
+
                 <InfoOutlined /> Details
               </p>
             </HeaderRight>
@@ -167,17 +172,18 @@ const ChatMessages = styled.div`
   margin-top: 60px;
 
  
-  >table {
+  > table {
     position: absolute;
     right: 0;
     margin-top: 50px;
     margin-right: 150px;
     float: right;
     text-align:center;
-
   }
+
   > table tbody {
     margin: 0px 20px;
+
   }
 
 `

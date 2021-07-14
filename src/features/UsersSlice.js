@@ -14,27 +14,30 @@ const UsersList = createSlice({
   initialState: {
     status: false,
     list: [],
+    idSearch: null
   },
   reducers: {
     clearStateChannels(state, action) {
       state.status = false
       state.list = []
+      state.idSearch = null
       return state
-    }
+    },
+    searchUser(state, { payload }) {
+      state.idSearch = payload
+    },
+    clearIdSearch(state, action) {
+      state.idSearch = null
+      return state
+    },
   },
   extraReducers: {
     [UsersListAsync.fulfilled]: (state, action) => {
       state.list = action.payload.data
-      // state.list = []
-      // if (action.payload.hasOwnProperty('errors')) {
-      //   state.status = true
-      // } else {
-      //   state.channels = action.payload.data
-      // }
     },
   }
 })
 
-export const { clearStateChannels } = UsersList.actions
+export const { clearStateChannels, searchUser, clearIdSearch } = UsersList.actions
 
 export default UsersList.reducer

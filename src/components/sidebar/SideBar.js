@@ -55,7 +55,7 @@ const SideBar = () => {
       <hr />
       <SideBarOption Icon={Add} addChannelOption title="Add Channel" />
       <hr />
-      <SideBarOption Icon={PeopleAltIcon} title="Channel you owned" />
+      <SideBarOption Icon={PeopleAltIcon} title="Channel owned" />
       <hr />
       {
         (channels.owned.map((item, index) => (
@@ -67,7 +67,7 @@ const SideBar = () => {
         )))
       }
       <hr />
-      <SideBarOption Icon={PeopleAltIcon} title="Channel you joined" />
+      <SideBarOption Icon={PeopleAltIcon} title="Channel joined" />
       {
         (channels.list.map((item, index) => (
           item.owner_id !== auth.authId &&

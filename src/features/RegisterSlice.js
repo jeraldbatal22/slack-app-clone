@@ -1,16 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as axios from '../utils/axiosApi'
 
-export const fetchRegisterAsync = createAsyncThunk( 
+export const fetchRegisterAsync = createAsyncThunk(
   'register/fetchRegisterAsync',
   async (payload) => {
-      console.log(payload)
+    console.log(payload)
     const data = await axios.post('auth/', payload) // Store to the auth, api
     return data
   }
 )
 
-const RegisterSlice = createSlice({                 
+const RegisterSlice = createSlice({
   name: 'register',
   initialState: {
     status: null,

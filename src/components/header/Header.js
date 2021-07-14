@@ -9,13 +9,16 @@ import { useHistory } from "react-router";
 import { clearStateChannels } from "../../features/ChannelsSlice";
 import { clearStateChannelId } from "../../features/RoomSlice";
 import { clearStateRetrieveMessages } from "../../features/MessagesSlice";
-import { UsersListAsync } from "../../features/UsersSlice";
+import { UsersListAsync, searchUser } from "../../features/UsersSlice";
 import { successMessage } from "../../utils/message";
+import { useState } from "react";
+import { clearIdSearch } from '../../features/UsersSlice'
+
 const Header = () => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const { user } = useSelector((store) => store.auth)
-  const email = user.email
+  const { auth, users } = useSelector((store) => store)
+  const email = auth.user.email
   const newEmail = email.charAt(0).toUpperCase() + email.slice(1)
 
   const onHandleLogout = () => {
@@ -33,6 +36,20 @@ const Header = () => {
   const viewProfile = (e) => {
     e.preventDefault()
     history.push('/profile')
+    dispatch(clearIdSearch())
+    return auth.user
+  }
+  const [searchId, setSearchId] = useState('')
+
+  const onHandleChange = (e) => {
+    setSearchId(e.target.value)
+  }
+  const onHandleSearch = (e) => {
+    e.preventDefault()
+    const userId = users.list.find(index => index.id === parseFloat(searchId))
+    history.push('/profile')
+    dispatch(searchUser(userId))
+    setSearchId('')
   }
 
   return (
@@ -42,14 +59,17 @@ const Header = () => {
         <AccessTime />
       </HeaderLeft>
 
-      <HeaderSearch>
-        <Search />
-        <input type="text" placeholder={`Search ${newEmail}`} />
-      </HeaderSearch>
+      <form onSubmit={onHandleSearch}>
+        <HeaderSearch>
+          <Search />
+          <input type="number" value={searchId} placeholder={`Search users via id# ${newEmail}`} onChange={onHandleChange} />
+          <button type="submit" >Search</button>
+        </HeaderSearch>
+      </form>
 
       <HeaderRight>
         <HelpOutline />
-        <button onClick={onHandleLogout}>LOGOUT</button>
+        <button type="submit" onClick={onHandleLogout}>LOGOUT</button>
       </HeaderRight>
     </HeaderContainer>
   )
@@ -118,7 +138,11 @@ const HeaderSearch = styled.div`
     min-width: 30vw;
     outline:0;
     color:#fff;
-}
+  }
+
+  > button {
+    display: none;
+  }
 `
 const HeaderRight = styled.div`
   flex: 0.3;
