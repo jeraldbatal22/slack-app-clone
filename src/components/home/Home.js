@@ -1,6 +1,7 @@
-import styled from 'styled-components'
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import Clock from "../Clock/Clock";
 
 const Home = () => {
   const { auth } = useSelector(store => store)
@@ -16,6 +17,8 @@ const Home = () => {
       </HomeTitle>
       <button>Start a direct message</button>
       <button>Create a channel</button>
+
+      <Clock/>
     </HomeContainer>
   )
 }

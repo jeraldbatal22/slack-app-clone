@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import Clock from "../Clock/Clock";
 
 const UserProfile = () => {
   const { auth, users } = useSelector(store => store)
@@ -19,7 +18,7 @@ const UserProfile = () => {
             <label><strong>E-mail: </strong>{auth.user.email} </label>
           </div>
       }
-      <Clock/>
+      
     </ChatContainer>
   )
 }
