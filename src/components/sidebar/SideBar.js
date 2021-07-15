@@ -1,11 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-// style
 import styled from "styled-components";
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import { Create, FiberManualRecord, Add, ExpandMore, InsertComment, Inbox, Drafts, BookmarkBorder, FileCopy, PeopleAlt, Apps, ExpandLess, Message } from "@material-ui/icons";
-// components
+import { Create, Add, ExpandMore, InsertComment, Inbox, Drafts, BookmarkBorder, FileCopy, PeopleAlt, Apps, ExpandLess, Message, Home } from "@material-ui/icons";
 import SideBarOption from './SideBarOption';
 import { channelsListAsync, channelsListOwnedAsync } from "../../features/ChannelsSlice";
 
@@ -15,8 +13,6 @@ const SideBar = () => {
   const history = useHistory();
 
   const { auth, channels } = useSelector((store) => store);
-  const email = auth.user.email;
-  // const newEmail = email.charAt(0).toLowerCase() + email.slice(1);
 
   let [state, setstate] = useState(false);
 
@@ -42,6 +38,7 @@ const SideBar = () => {
         </SideBarInfo>
         <CreateMessage onClick={createMessage} />
       </SideBarHeader>
+      <SideBarOption Icon={Home} title="Home" titleId="home" />
       <SideBarOption Icon={InsertComment} title="Threads" titleId="threads" />
       <SideBarOption Icon={Inbox} title="Mentions & Reactions" titleId="mention-reaction" />
       <SideBarOption Icon={Drafts} title="Saved Items" titleId="save-items" />

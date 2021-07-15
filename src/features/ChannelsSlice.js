@@ -22,6 +22,7 @@ export const addChannelAsync = createAsyncThunk(
   'channels/addChannelAsync',
   async (payload) => {
     const data = await axios.post('channels/', payload, true)
+    console.log(data)
     return data
   }
 )

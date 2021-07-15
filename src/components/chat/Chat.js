@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { StarBorder, InfoOutlined, Add } from '@material-ui/icons';
+import { StarBorder, Add } from '@material-ui/icons';
 import ChatInput from './ChatInput';
 import Message from './Message';
 import { errorMessage, successMessage } from '../../utils/message';
@@ -68,9 +68,8 @@ const Chat = () => {
             <HeaderRight>
               <p>
                 <button type="button" onClick={viewMembersToChannel} className="view-members"><PeopleIcon /> View Members</button>
-                {(channelDetails.owner_id === auth.authId) && <button type="button" onClick={addMemberToChannel}><Add /> Add Member</button>}
+                {(channelDetails.owner_id === auth.authId) && <button type="button" className="add-members" onClick={addMemberToChannel}><Add /> Add Member</button>}
 
-                {/* <InfoOutlined /> Details */}
                 {
                   isShow &&
                   <table>
@@ -84,11 +83,14 @@ const Chat = () => {
                       {
                         channels.memberList &&
                         channels.memberList.map((member, index) => {
+
                           const user = users.list.find((list) =>
                             list.id === member.user_id
                           )
+                          const newEmail = user.uid.split('@');
+                          const username = newEmail[0].toUpperCase()
                           return (<tr key={index}>
-                            <td><UserAvatar style={{ marginRight: "10px" }} />{user.uid}</td>
+                            <td><UserAvatar style={{ marginRight: "10px", marginLeft: '-10px' }} />{username}</td>
                           </tr>)
                         })
                       }
@@ -104,9 +106,11 @@ const Chat = () => {
             {
               messages.list ? (
                 messages.list !== null && roomId.roomId === channelDetails.id ?
-                  messages.list.map((item, index) => (
-                    <Message key={index} item={item} senderName={item.sender ? item.sender.email : "Me"} />
-                  ))
+                  messages.list.map((item, index) => {
+                    const newEmail = item.sender ? item.sender.email.split('@') : "Me"
+                    const username = newEmail[0].toUpperCase()
+                    return <Message key={index} item={item} senderName={item.sender ? username : "Me"} />
+                  })
                   : '') : ''
             }
           </ChatMessages>
@@ -131,7 +135,7 @@ const ChatContainer = styled.div`
 
 const Header = styled.div`
   background: #fff;
-  width: 78%;
+  width: 83.2%;
   position: fixed;
   display: flex;
   justify-content: space-between;
@@ -174,19 +178,23 @@ const HeaderRight = styled.div`
     font-size: 16px;
   }
 
-  > p > .view-members{
+  > p > .view-members, .add-members{
     &:hover{
       background-color: whitesmoke;
     }
   }
-
+    
+  p .add-members {
+    margin-right: 200px;
+  }
   > p > button {
+    padding: 5px 15px;
     display: flex;
     align-items: center;
-    margin-right: 20px;
+    margin-right: 30px;
     float: right;
     cursor: pointer;
-    border-radius: 50px;
+    border: none;
   }
 
   > p > table {
@@ -237,23 +245,24 @@ const HeaderRight = styled.div`
     & td{
       display: flex;
       align-items: center;
-      margin: 2px 10px;
       width: 120%;
       padding: 5px;
+      font-weight: 700;
     }
     & td:hover{
       background-color: whitesmoke;
     }
   }
+
 `
 
 const ChatMessages = styled.div`
   display: flex;
   flex-direction: column;
   margin: auto; 
-  margin-top: 70px;
+  margin-top: 90px;
 `
 
 const ChatBottom = styled.div`
-  padding-bottom: 200px;
+  padding-bottom: 150px;
 `
