@@ -1,61 +1,69 @@
-import styled from "styled-components"
-import { addChannelAsync, viewMembersToChannelAsync } from "../../features/ChannelsSlice"
-import { useDispatch, useSelector } from "react-redux"
-import { useState } from "react"
-import { enterRoom } from "../../features/RoomSlice"
-import { errorMessage, successMessage } from "../../utils/message"
-import { fetchRetrieveMessages } from "../../features/MessagesSlice"
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+// style
+import styled from "styled-components";
+import { errorMessage, successMessage } from "../../utils/message";
+// API
+import { fetchRetrieveMessages } from "../../features/MessagesSlice";
+import { addChannelAsync, viewMembersToChannelAsync } from "../../features/ChannelsSlice";
+import { enterRoom } from "../../features/RoomSlice";
 
 const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOption, titleId }) => {
-  const history = useHistory()
-  const dispatch = useDispatch()
-  const [addChannelState, setAddChannelState] = useState({
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [addChannelState, setAddChannelState] = useState({ //initial state
     name: '',
     user_ids: []
   })
 
-  const { channels } = useSelector(store => store)
+  const { channels } = useSelector(store => store);
+
   const addChannel = () => {
-    const channelnName = prompt('please enter the channel name')
-    const find = channels.list.find(channelName => channelName.name === channelnName)
-    if (channelnName === "") {
-      return errorMessage('error', "Name can't be blank")
+    const channelName = prompt('Please enter a channel name: ');
+    const find = channels.list.find(channelName => channelName.name === channelName);
+    if (channelName === "") {
+      return errorMessage('Error', "Name can't be blank.");
     }
-    if (channelnName) {
-      if (channelnName.length < 3) {
-        return errorMessage('error', "Name is too short (3 characters minimu required)")
+    if (channelName) {
+      if (channelName.length < 3) {
+        return errorMessage('Error', "Name is too short! (Minimum of 3 characters required)");
       }
-      if (find) {
-        return errorMessage('error', "Channel name has already been taken")
+      if (find) { 
+        return errorMessage('Error', "Channel name has already been taken.");
       }
       else {
-        setAddChannelState(addChannelState.name = channelnName)
-        setAddChannelState({ ...addChannelState, name: '' })
-        dispatch(addChannelAsync(
-          addChannelState
-        ))
-        return successMessage('success', `Successfully add channel ${channelnName.toLocaleUpperCase()}`)
+        setAddChannelState(addChannelState.name = channelName);
+        dispatch(addChannelAsync(addChannelState));
+        return successMessage('Success', `Successfully added channel: ${channelName.toLocaleUpperCase()}`);
       }
     }
   }
 
   const selectChannel = () => {
-    if (titleId) {
+    if (titleId ) {
       if (titleId === "home") {
         history.push(`/${titleId}`)
       } else {
         history.push(`/${titleId}`)
-        return errorMessage('error', "This features is not available yet.")
+        return errorMessage('Error', "This feature is not available yet.")
       }
     }
     if (id) {
       dispatch(enterRoom({
         channelId: id
       }))
+<<<<<<< HEAD
       dispatch(fetchRetrieveMessages(id))
       dispatch(viewMembersToChannelAsync(id))
       history.push(`/homepage`)
+=======
+      dispatch(fetchRetrieveMessages(id));
+      dispatch(viewMembersToChannelAsync(id));
+      history.push(`/homepage`);
+>>>>>>> ad73621d98a7bad3f5e6c4267d82263980a0b77d
     }
   }
 
@@ -73,7 +81,7 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
   )
 }
 
-export default SideBarOption
+export default SideBarOption;
 
 const SideBarOptionContainer = styled.div`
   display: flex;
@@ -98,5 +106,4 @@ const SideBarOptionContainer = styled.div`
 const SideBarOptionChannel = styled.h3`
   padding: 10px 0;
   font-weight: 300;
-
 `
