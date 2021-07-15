@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { viewMembersToChannelAsync, addMemberToChannelAsync } from '../../features/ChannelsSlice';
 import PeopleIcon from '@material-ui/icons/People';
+import { Avatar } from '@material-ui/core';
+
 const Chat = () => {
 
   const chatRef = useRef(null)
@@ -61,46 +63,45 @@ const Chat = () => {
         <>
           <Header>
             <HeaderLeft>
-              <h4><strong></strong></h4>
-              <StarBorder />
+              <h3>{channelDetails.name}</h3>
             </HeaderLeft>
-            <label><strong>ROOM</strong> {channelDetails.name.toUpperCase()}</label>
+              <label><strong>ROOM</strong> {channelDetails.name}</label>
             <HeaderRight>
               <p>
-                <button type="button" onClick={viewMembersToChannel}><PeopleIcon /> View Members</button>
+                <button type="button" onClick={viewMembersToChannel} className="view-members"><PeopleIcon /> View Members</button>
                 {(channelDetails.owner_id === auth.authId) && <button type="button" onClick={addMemberToChannel}><Add /> Add Member</button>}
 
-                <InfoOutlined /> Details
+                {/* <InfoOutlined /> Details */}
+                {
+                  isShow &&
+                  <table>
+                    <thead>
+                      <tr>
+                        <th><h2>{channelDetails.name}</h2> <StarBorder /> </th>
+                        <h5>Members</h5>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        channels.memberList &&
+                        channels.memberList.map((member, index) => {
+                          const user = users.list.find((list) =>
+                            list.id === member.user_id
+                          )
+                          return (<tr key={index}>
+                            <td><Avatar/>{user.uid}</td>
+                          </tr>)
+                        })
+                      }
+                    </tbody>
+                  </table>
+                }
               </p>
+              <StarBorder />
             </HeaderRight>
           </Header>
 
           <ChatMessages>
-
-            {
-              isShow &&
-              <table>
-                <thead>
-                  <tr>
-                    <th>{channelDetails.name.toUpperCase()} MEMBERS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    channels.memberList &&
-                    channels.memberList.map((member, index) => {
-                      const user = users.list.find((list) =>
-                        list.id === member.user_id
-                      )
-                      return (<tr key={index}>
-                        <td>{user.uid}</td>
-                      </tr>)
-                    })
-                  }
-                </tbody>
-              </table>
-            }
-
             {
               messages.list ? (
                 messages.list !== null && roomId.roomId === channelDetails.id ?
@@ -126,6 +127,7 @@ const ChatContainer = styled.div`
   flex-grow: 1;
   overflow-y: scroll;
   margin-top: 60px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 `
 
 const Header = styled.div`
@@ -153,9 +155,13 @@ const HeaderLeft = styled.div`
 
 `
 const HeaderRight = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+
   > p {
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
     font-size: 14px;
   }
 
@@ -163,44 +169,84 @@ const HeaderRight = styled.div`
     margin-right: 5px;
     font-size: 16px;
   }
+
+  > p > .view-members{
+    &:hover{
+      background-color: whitesmoke;
+    }
+  }
+
   > p > button {
-    /* position: fixed;
-    right: 0; */
     display: flex;
     align-items: center;
     margin-right: 20px;
     float: right;
     cursor: pointer;
-    border-radius: 20px;
-    border: none;
-    padding: 5px;
+    border-radius: 50px;
   }
 
-  button:hover {
-    color: #fff;
-    background: #3f0f40;
+  > p > table {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: left;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 23vw;
+    height: 65vh;
+    margin: auto;
+    margin-top: 10vh;
+    text-align: center;
+    background-color: white;
+    box-shadow: 1px 3px 5px 1px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 10px;
   }
 
+  > p > table > thead > tr > th {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    padding: 10px;
+  }
+
+  > p > table > thead > tr > h5 {
+    text-align: left;
+    padding: 10px;
+    color: grey;
+    border-bottom: 1px solid grey;
+    width: 100%;
+  }
+
+
+  > p > table > tbody {
+    padding: 10px;
+    height: auto;
+    background-color: white;
+    text-align: left;
+    overflow-y: scroll;
+    & td{
+      padding: 10px
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      width: inherit;
+    }
+    & td:hover{
+      background-color: whitesmoke;
+    }
+  }
 `
 
 const ChatMessages = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: auto; 
   margin-top: 60px;
- 
-  > table {
-    position: absolute;
-    right: 0;
-    margin-top: 50px;
-    margin-right: 150px;
-    float: right;
-    text-align:center;
-    border: 1px solid;
-  }
-
-  > table tbody {
-    margin: 0px 20px;
-    
-  }
-
 `
 
 const ChatBottom = styled.div`
