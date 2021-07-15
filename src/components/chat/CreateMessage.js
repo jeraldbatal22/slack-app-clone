@@ -42,19 +42,23 @@ const CreateMessage = () => {
         message: '',
         receiver_id: ''
       })
-      return successMessage('Success', `Success fully send message`)
+      return successMessage('Success', `Successfully send message`)
     }
 
   }
 
   return (
     <ChatContainer>
+      <h2>New Message</h2>
       <form >
+      <div classname="createMessage-to">
         <label>To</label>
         <input type="number" value={sendText.receiver_id} name="receiver_id" placeholder="Receiver Id" autoComplete="off" onChange={onHandleChange} />
-        <label>Message</label>
+      </div>  
+      <div className="createMessage-message">
         <input type="text" name="message" value={sendText.message} placeholder="Send a message" autoComplete="off" onChange={onHandleChange} />
         <Button type="submit" onClick={onHandleSend}>SEND</Button>
+      </div>
       </form>
     </ChatContainer>
   )
@@ -66,25 +70,44 @@ const ChatContainer = styled.div`
   flex: 0.7;
   flex-grow: 1;
   overflow-y: scroll;
-  margin-top: 60px;
-  
+  margin-top: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+
+  >h2{
+    margin-top: 8vh;
+    padding: 15px;
+    border: none;
+  }
+
   >form {
     display: flex;
-    justify-content: center;
-    margin-top: 250px;
+    justify-content: space-between;
     flex-direction: column;
-    width: 50%;
-    margin: auto;
-    height: 70vh;
+    width: 100%;
+    height: 81vh;
+    //border: 1px solid black;  
   }
-  >form input {
+
+  >form >div{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: none;
+    //border-top: 1px solid black;
+    //border-bottom: 1px solid black;
+    width: 96.7%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  >form >div >input {
     bottom: 30px;
-    /* width: 100%; */
-    margin: 20px;
-    border: 1px solid gray;
-    padding: 20px;
+    width: 80%;
+    height: 30px
+    border: 1px solid transparent;
     outline: none;
-  }
+    padding: 20px  }
 
   >form >button {
     /* display: none ; */

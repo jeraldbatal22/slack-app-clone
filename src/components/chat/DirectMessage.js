@@ -81,22 +81,25 @@ const ChatInputContainer = styled.div`
     position: absolute;
     bottom: 0;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     margin-top: 250px;
-    width: 80%;
-
+    width: 100%;
+    padding: 20px;
+    padding-left: 40px;
+    background-color: white;
   }
   >form input {
     bottom: 30px;
-    width: 100%;
-    margin: 20px;
+    width: 70%;
     border: 1px solid gray;
+    border-radius: 5px;
     padding: 20px;
     outline: none;
   }
 
   >form >button {
-    /* display: none ; */
+    width: 5%;
+    font: 1rem;
   }
 `
 const ChatContainer = styled.div`
@@ -108,10 +111,11 @@ const ChatContainer = styled.div`
 const Header = styled.div`
   background: #fff;
   width: 78%;
+  height: 5vh;
   position: fixed;
   display: flex;
   justify-content: space-between;
-  padding: 40px;
+  padding: 20px;
   border-bottom: 1px solid lightgray;
 `
 
@@ -152,5 +156,5 @@ const ChatMessages = styled.div`
 `
 
 const ChatBottom = styled.div`
-  padding-bottom: 200px;
+  padding-bottom: 150px;
 `

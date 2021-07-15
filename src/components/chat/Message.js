@@ -33,8 +33,15 @@ export default Message
 const MessageContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 20px;
-
+  padding: 10px;
+  padding-left: 30px;
+  width: auto;
+  background-color: white;
+  height: auto;
+  &:hover{
+    background-color: whitesmoke;
+  }
+  
   > img {
     height: 45px;
     border-radius: 999px;

@@ -89,7 +89,7 @@ const Chat = () => {
                             list.id === member.user_id
                           )
                           return (<tr key={index}>
-                            <td><Avatar/>{user.uid}</td>
+                            <td><UserAvatar/>{user.uid}</td>
                           </tr>)
                         })
                       }
@@ -153,6 +153,11 @@ const HeaderLeft = styled.div`
     margin-right: 10px;
   }
 
+`
+const UserAvatar = styled(Avatar)`
+  margin: 0;
+  width: 10px;
+  height: 10px;
 `
 const HeaderRight = styled.div`
   display: flex;
@@ -228,13 +233,14 @@ const HeaderRight = styled.div`
     height: auto;
     background-color: white;
     text-align: left;
+    overflow-x: hidden;
     overflow-y: scroll;
     & td{
-      padding: 10px
       display: flex;
-      flex-direction: row;
-      justify-content: space-evenly;
-      width: inherit;
+      align-items: center;
+      margin: 2px 10px;
+      width: 120%;
+      padding: 5px;
     }
     & td:hover{
       background-color: whitesmoke;
