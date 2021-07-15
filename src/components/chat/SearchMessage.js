@@ -33,17 +33,17 @@ const SearchMessage = ({ searchId, setSearchId }) => {
   return (
     <FormContainer onSubmit={onHandleSearch}>
       <HeaderSearch>
-        <h1>Search Conversation</h1>
+        <h1>Search Conversation: </h1>
 
         <input
           ref={chatRef}
           className="maker__name"
           type="number"
-          placeholder="Input User Id"
+          placeholder="Enter User ID"
           onChange={onHandleChange}
         />
 
-        <button ref={chatRef} type="submit" className="maker__action"  >SUBMIT</button>
+        <button ref={chatRef} type="submit" className="maker__action">SUBMIT</button>
       </HeaderSearch>
 
       {
@@ -62,7 +62,7 @@ const SearchMessage = ({ searchId, setSearchId }) => {
               </MessageInfo>
             </MessageContainer>
           ))
-          : <h1>No conversation found</h1>
+          : <h1>No conversations found.</h1>
       }
       <ChatBottom ref={chatRef} />
 
@@ -73,19 +73,20 @@ const SearchMessage = ({ searchId, setSearchId }) => {
 export default SearchMessage
 
 const FormContainer = styled.form`
- > h1 {
-   margin-left: 20px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   height: 75vh;
-   font-size: 3rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  > h1 {
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+    font-size: 2rem;
   }
 `
 
 const HeaderSearch = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   position: absolute;
   justify-content: center;
   align-items: center;
@@ -96,7 +97,9 @@ const HeaderSearch = styled.div`
   height: 10vh;
 
   >h1 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    margin-right: 2%;
+    margin-top: 0.3%;
   }
   >button {
     margin-bottom: 200px;
