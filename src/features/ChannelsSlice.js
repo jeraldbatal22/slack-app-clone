@@ -12,7 +12,7 @@ export const channelsListOwnedAsync = createAsyncThunk(
   'channels/channelsListOwnedAsync',
   async () => {
     const data = await axios.get('channel/owned', true)
-    // console.log(data)
+    console.log(data)
     return data
   }
 )
@@ -81,7 +81,7 @@ const ChannelsSlice = createSlice({
     [addChannelAsync.fulfilled]: (state, action) => {
       state.errors = action.payload.errors
       const newData = action.payload.data
-      state.list.push(newData)
+      state.owned.push(newData)
     },
     [addMemberToChannelAsync.fulfilled]: (state, action) => {
       if (action.payload.hasOwnProperty('errors')) {

@@ -6,10 +6,9 @@ import styled from 'styled-components'
 import defaultImage from '../../images/profile.jpg'
 import { useEffect } from 'react'
 
-const SearchMessage = () => {
+const SearchMessage = ( {searchId, setSearchId} ) => {
   const chatRef = useRef(null)
   const dispatch = useDispatch()
-  const [searchId, setSearchId] = useState('')
   const { messages } = useSelector(store => store)
   const onHandleChange = (e) => {
     setSearchId(e.target.value)
@@ -18,7 +17,6 @@ const SearchMessage = () => {
   const onHandleSearch = (e) => {
     e.preventDefault()
     dispatch(fetchDirectMessageToUser(parseFloat(searchId)))
-    setSearchId('')
   }
 
   useEffect(() => {
@@ -35,11 +33,10 @@ const SearchMessage = () => {
           className="maker__name"
           type="number"
           placeholder="Input User Id"
-          value={searchId}
           onChange={onHandleChange}
         />
 
-        <button type="submit" className="maker__action"  >submit</button>
+        <button type="submit" className="maker__action"  >SUBMIT</button>
       </HeaderSearch>
       {
         messages.directMsgList &&
@@ -51,7 +48,7 @@ const SearchMessage = () => {
                 <MessageInfo>
                   <h4>
                     {
-                      messages.length > 0 ? message.sender.email : 'Unknow user'
+                      messages.length > 0 ? `${message.sender.email}`  : 'Unknown user' // nilagyan ko ng .directMsgList yung condition para hindi mag unknown
                     }
                     {/* {message.sender.email} */}
                     <span>
@@ -108,7 +105,14 @@ const HeaderSearch = styled.div`
 const MessageContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
+  padding-left: 30px;
+  width: auto;
+  background-color: white;
+  height: auto;
+  &:hover{
+    background-color: whitesmoke;
+  }
 
   > img {
     height: 45px;
@@ -140,7 +144,6 @@ const MessageInfo = styled.div`
     margin-left:5px;
     font-size: 20px;
     cursor: pointer;
-    background: red;
   }
 
 `

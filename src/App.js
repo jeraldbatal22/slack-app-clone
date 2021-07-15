@@ -18,7 +18,7 @@ import { useEffect } from 'react';
 import { fetchRetrieveMessages } from './features/MessagesSlice';
 import { UsersListAsync } from './features/UsersSlice'
 import DirectMessage from './components/chat/DirectMessage';
-import UserProfile from './components/users/UserProfile'
+import UserProfile from './components/Users/UserProfile'
 import CreateMessage from './components/chat/CreateMessage';
 
 function App() {

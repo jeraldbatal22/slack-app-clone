@@ -39,23 +39,24 @@ export default ChatInput
 
 
 const ChatInputContainer = styled.div`
-  border-radius: 20px;
 
   >form {
-    position: relative;
+    position: absolute;
+    bottom: 0;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    margin-top: 250px;
+    width: 100%;
+    padding: 20px;
+    padding-left: 40px;
+    background-color: white;
   }
   >form input {
-    position: fixed;
     bottom: 30px;
-    width: 60%;
+    width: 70%;
     border: 1px solid gray;
+    border-radius: 5px;
     padding: 20px;
     outline: none;
-  }
 
-  >form >button {
-    display: none ;
-  }
 `

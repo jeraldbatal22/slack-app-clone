@@ -11,6 +11,7 @@ const DirectMessage = () => {
   const chatRef = useRef(null)
   const dispatch = useDispatch()
 
+  const [searchId, setSearchId] = useState()
   const [sendText, setSendText] = useState({
     message: '',
     receiver_id: ''
@@ -23,11 +24,11 @@ const DirectMessage = () => {
 
   const onHandleSend = (e) => {
     e.preventDefault()
-    if (sendText.messages === '' || sendText.receiver_id === '') {
+    if (sendText.messages === '') {  // senText.message ba dapat?
       return errorMessage('Error', "Invalid Reciever")
     } else {
       dispatch(fetchSendDirectMessage({
-        receiver_id: parseFloat(sendText.receiver_id),
+        receiver_id: parseFloat(searchId),
         receiver_class: 'User',
         body: sendText.message
       }))
@@ -55,13 +56,12 @@ const DirectMessage = () => {
         </HeaderRight>
       </Header>
       <ChatMessages>
-        <SearchMessage />
+        <SearchMessage searchId={searchId} setSearchId={setSearchId}/>
       </ChatMessages>
       <ChatBottom ref={chatRef} />
       <ChatInputContainer>
         <form onSubmit={onHandleSend}>
           <input type="text" name="message" placeholder="Send a message" value={sendText.message} autoComplete="off" onChange={onHandleChange} />
-          <input type="number" name="receiver_id" value={sendText.receiver_id} placeholder="Receiver Id" autoComplete="off" onChange={onHandleChange} />
           <Button type="submit">SEND</Button>
         </form>
       </ChatInputContainer>
@@ -73,27 +73,31 @@ export default DirectMessage
 
 const ChatInputContainer = styled.div`
   border-radius: 20px;
+  box-sizing: border-box;
 
   >form {
     position: absolute;
     bottom: 0;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     margin-top: 250px;
-    width: 80%;
-
+    width: 100%;
+    padding: 20px;
+    padding-left: 40px;
+    background-color: white;
   }
   >form input {
     bottom: 30px;
-    /* width: 100%; */
-    margin: 20px;
+    width: 70%;
     border: 1px solid gray;
+    border-radius: 5px;
     padding: 20px;
     outline: none;
   }
 
   >form >button {
-    /* display: none ; */
+    width: 5%;
+    font: 1rem;
   }
 `
 const ChatContainer = styled.div`
@@ -101,6 +105,7 @@ const ChatContainer = styled.div`
   flex-grow: 1;
   overflow-y: scroll;
   margin-top: 60px;
+
 `
 const Header = styled.div`
   background: #fff;
@@ -149,5 +154,5 @@ const ChatMessages = styled.div`
 `
 
 const ChatBottom = styled.div`
-  padding-bottom: 200px;
+  padding-bottom: 150px;
 `
