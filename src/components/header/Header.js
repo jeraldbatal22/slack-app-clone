@@ -1,88 +1,95 @@
-import styled from "styled-components";
-import { Avatar } from "@material-ui/core";
-import { AccessTime, HelpOutline, Search } from "@material-ui/icons";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import * as storage from '../../utils/storage'
-import { getUser } from "../../features/AuthSlice";
 import { useHistory } from "react-router";
+// Style
+import styled from "styled-components";
+import { Avatar } from "@material-ui/core";
+import { AccessTime, HelpOutline, Search, FiberManualRecord } from "@material-ui/icons";
+// Utilities
+import * as storage from '../../utils/storage';
+import { successMessage, errorMessage } from "../../utils/message";
+// API
+import { getUser } from "../../features/AuthSlice";
 import { clearStateChannels } from "../../features/ChannelsSlice";
 import { clearStateChannelId } from "../../features/RoomSlice";
 import { clearStateRetrieveMessages } from "../../features/MessagesSlice";
 import { UsersListAsync, searchUser } from "../../features/UsersSlice";
-import { successMessage, errorMessage } from "../../utils/message";
-import { useState } from "react";
-import { clearIdSearch } from '../../features/UsersSlice'
+import { clearIdSearch } from '../../features/UsersSlice';
 
 const Header = () => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const { auth, users } = useSelector((store) => store)
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const email = auth.user.email
-  const newEmail = email.charAt(0).toUpperCase() + email.slice(1)
+  const { auth, users } = useSelector((store) => store);
+
+  const email = auth.user.email;
+  const newEmail = email.charAt(0).toLowerCase() + email.slice(1);
 
   const onHandleLogout = () => {
-    storage.remove(storage.AUTH_KEY)
-    storage.remove(storage.AUTH_TOKEN)
-    dispatch(clearStateChannels())
-    dispatch(clearStateChannelId())
-    dispatch(clearStateRetrieveMessages())
-    dispatch(UsersListAsync())
-    dispatch(getUser())
-    history.push('/login')
-    successMessage('Success', 'Successfully logout')
+    storage.remove(storage.AUTH_KEY);
+    storage.remove(storage.AUTH_TOKEN);
+    dispatch(clearStateChannels());
+    dispatch(clearStateChannelId());
+    dispatch(clearStateRetrieveMessages());
+    dispatch(UsersListAsync());
+    dispatch(getUser());
+    history.push('/login');
+    successMessage('Success!', 'Successfully Logged Out!');
   }
 
   const viewProfile = (e) => {
-    e.preventDefault()
-    history.push('/profile')
-    dispatch(clearIdSearch())
-    return auth.user
+    e.preventDefault();
+    history.push('/profile');
+    dispatch(clearIdSearch());
+    return auth.user;
   }
-  const [searchId, setSearchId] = useState('')
+  const [searchId, setSearchId] = useState('');
 
   const onHandleChange = (e) => {
-    setSearchId(e.target.value)
+    setSearchId(e.target.value);
   }
+
   const onHandleSearch = (e) => {
-    e.preventDefault()
-    const userId = users.list.find(index => index.id === parseFloat(searchId))
+    e.preventDefault();
+    const userId = users.list.find(index => index.id === parseFloat(searchId));
     if (!userId) {
-      errorMessage('Error', `Id ${searchId} is not registered as a user`)
+      errorMessage('Error', `User ID: ${searchId} is not a registered user.`);
     }
-    history.push('/profile')
-    dispatch(searchUser(userId))
-    setSearchId('')
+    history.push('/profile');
+    dispatch(searchUser(userId));
+    setSearchId('');
   }
 
   return (
     <HeaderContainer>
       <HeaderLeft>
-        <HeaderAvatar onClick={viewProfile} alt="" />
-        <AccessTime />
+        <FiberManualRecord /><h5>{newEmail}</h5>
       </HeaderLeft>
+      <AccessTime />
 
       <form onSubmit={onHandleSearch}>
         <HeaderSearch>
+          <input type="number" value={searchId} placeholder={`Search users via User ID: `} onChange={onHandleChange} />
           <Search />
-          <input type="number" value={searchId} placeholder={`Search users via id# ${newEmail}`} onChange={onHandleChange} />
-          <button type="submit" >Search</button>
+          <button type="submit">Search</button>
         </HeaderSearch>
+
       </form>
+      <HelpOutline />
 
       <HeaderRight>
-        <HelpOutline />
         <button type="submit" onClick={onHandleLogout}>LOGOUT</button>
+        <HeaderAvatar onClick={viewProfile} alt="" />
       </HeaderRight>
     </HeaderContainer>
   )
 }
 
-export default Header
+export default Header;
 
 const HeaderContainer = styled.div`
-  display:flex;
+  display: flex;
   position: fixed;
   width: 100%;
   padding: 10px 0;
@@ -90,18 +97,15 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   background: var(--slack-color);
   color: #fff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 `;
 
 const HeaderLeft = styled.div`
   flex:0.3;
   display: flex;
   align-items: center;
-  margin-left: 20px;
-
-  > .MuiSvgIcon-root {
-    margin-left: auto;
-    margin-right: 30px;
-  }
+  margin-left: 2%;
+  text-align: left;
 
   > button {
     background: none;
@@ -114,6 +118,18 @@ const HeaderLeft = styled.div`
 
   > button:hover {
     opacity: 0.5;
+  }
+  
+  >h5 {
+    font-weight: 500;
+    text-align: left;
+  }
+
+  > .MuiSvgIcon-root {
+    font-size: 14px;
+    margin-top: 2px;
+    margin-right: 5%;
+    color: green ;
   }
 `
 
@@ -131,15 +147,20 @@ const HeaderSearch = styled.div`
   padding: 0 50px;
   opacity: 1;
   border-radius: 6px;
-  background: #421f44;
   text-align:center;
-  border:1px gray solid;
+  border: none;
+  border: 2px white solid;
+  border-radius: 6px;
+
+  > .MuiSvgIcon-root {
+    margin-left: 3%;
+  }
 
   > input {
     background: transparent;
     border: none;
     text-align:center;
-    min-width: 30vw;
+    min-width: 40vw;
     outline:0;
     color:#fff;
   }
@@ -151,13 +172,9 @@ const HeaderSearch = styled.div`
 const HeaderRight = styled.div`
   flex: 0.3;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 
-  > .MuiSvgIcon-root {
-    margin-left:auto ;
-    margin-right:20px;
-  }
-  >button {
+  > button {
     cursor: pointer;
     color: #fff;
     font-weight: 750;
@@ -165,7 +182,8 @@ const HeaderRight = styled.div`
     border: none;
     margin-right: 20px;
   }
-  >button:hover {
+
+  > button:hover {
     opacity: 0.5;
   }
 `

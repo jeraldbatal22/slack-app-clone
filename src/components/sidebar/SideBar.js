@@ -1,53 +1,52 @@
-import styled from "styled-components"
-import { Create, FiberManualRecord, Add, ExpandMore, InsertComment, Inbox, Drafts, BookmarkBorder, FileCopy, PeopleAlt, Apps, ExpandLess, Message, Home } from "@material-ui/icons"
-import SideBarOption from './SideBarOption'
-import { useSelector, useDispatch } from "react-redux"
-import { useState, useEffect } from "react"
-import { useHistory } from "react-router-dom"
-import { channelsListAsync, channelsListOwnedAsync } from "../../features/ChannelsSlice"
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+// style
+import styled from "styled-components";
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import { Create, Add, Home, ExpandMore, InsertComment, Inbox, Drafts, BookmarkBorder, FileCopy, PeopleAlt, Apps, ExpandLess, Message } from "@material-ui/icons";
+// components
+import SideBarOption from './SideBarOption';
+import { channelsListAsync, channelsListOwnedAsync } from "../../features/ChannelsSlice";
+
 
 const SideBar = () => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const { auth, channels } = useSelector((store) => store)
-  const email = auth.user.email
-  const newEmail = email.charAt(0).toUpperCase() + email.slice(1)
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  let [state, setstate] = useState(false)
+  const { auth, channels } = useSelector((store) => store);
+
+  let [state, setstate] = useState(false);
+
   const showDirectMessage = () => {
-    history.push('/messages')
-    setstate(state = !state)
+    history.push('/messages');
+    setstate(state = !state);
   }
 
   const createMessage = () => {
-    history.push('/createMessage')
+    history.push('/createMessage');
   }
 
   useEffect(() => {
-    dispatch(channelsListAsync())
-    dispatch(channelsListOwnedAsync())
-  }, [dispatch])
+    dispatch(channelsListAsync());
+    dispatch(channelsListOwnedAsync());
+  }, [dispatch]);
 
   return (
     <SideBarContainer>
       <SideBarHeader>
         <SideBarInfo>
-          <h2>Avion School</h2>
-          <h3>
-            <FiberManualRecord />
-            {newEmail}
-          </h3>
+          <h3>Avion School</h3>
         </SideBarInfo>
         <CreateMessage onClick={createMessage} />
       </SideBarHeader>
       <SideBarOption Icon={Home} title="Home" titleId="home" />
       <SideBarOption Icon={InsertComment} title="Threads" titleId="threads" />
-      <SideBarOption Icon={Inbox} title="Mentions & reactions" titleId="mention-reaction" />
+      <SideBarOption Icon={Inbox} title="Mentions & Reactions" titleId="mention-reaction" />
       <SideBarOption Icon={Drafts} title="Saved Items" titleId="save-items" />
       <SideBarOption Icon={BookmarkBorder} title="Channel Browser" titleId="channel-browser" />
-      <SideBarOption Icon={PeopleAlt} title="People & user groups" titleId="people-user-groups" />
-      <SideBarOption Icon={Apps} title="apps" titleId="apps" />
+      <SideBarOption Icon={PeopleAlt} title="People & User Groups" titleId="people-user-groups" />
+      <SideBarOption Icon={Apps} title="Apps" titleId="apps" />
       <SideBarOption Icon={FileCopy} title="File Browser" titleId="file-browser" />
       <SideBarOption Icon={ExpandLess} title="Show Less" titleId="showless" />
       <hr />
@@ -56,7 +55,7 @@ const SideBar = () => {
       <hr />
       <SideBarOption Icon={Add} addChannelOption title="Add Channel" />
       <hr />
-      <SideBarOption Icon={PeopleAltIcon} title="Channel owned" />
+      <SideBarOption Icon={PeopleAltIcon} title="Channels Owned" />
       <hr />
       {
         (channels.owned.map((item, index) => (
@@ -68,7 +67,7 @@ const SideBar = () => {
         )))
       }
       <hr />
-      <SideBarOption Icon={PeopleAltIcon} title="Channel joined" />
+      <SideBarOption Icon={PeopleAltIcon} title="Channels Joined" />
       {
         (channels.list.map((item, index) => (
           item.owner_id !== auth.authId &&
@@ -78,35 +77,12 @@ const SideBar = () => {
             title={item.name}
           />
         )))
-
       }
-
-
-
-
-      {
-        // user.directMessage.length ? (<SenderAvatar src={directMessage.senderImage} alt="" style={{ position: 'fixed', width: '30px' }} />) : ''
-
-        // directMessage !== user.id ? (
-        //   <>
-        //     <SenderAvatar src={directMessage.senderImage} alt="" style={{ position: 'fixed', width: '30px' }} />
-        //     <SideBarOption title={`${directMessage.senderName} message you`} /></>)
-        //   : 'no'
-
-        // user.directMessage.map((message, index) => (
-        //   <div key={index}>
-        //     <SenderAvatar src={message.senderImage} alt="" style={{ position: 'fixed', width: '30px' }} />
-        //     <SideBarOption title={`${message.senderName} message you`} />
-        //   </div>
-        // ))
-      }
-
-
     </SideBarContainer>
   )
 }
 
-export default SideBar
+export default SideBar;
 
 const SideBarContainer = styled.div`
   background: var(--slack-color);
@@ -116,34 +92,34 @@ const SideBarContainer = styled.div`
   max-width: 260px;
   margin-top: 60px;
   overflow-y: scroll;
-
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
   > hr {
     margin: 10px 0;
     border:1px solid #49274b;
   }
 
-  >button { 
+  > button { 
     background: none;
     border: none;
     color: #fff;
     width: 100%;
   }
-  >button:hover {
+  > button:hover {
     background: none;
   }
 
   ::-webkit-scrollbar-thumb {
-  background: #49274b;
-  border-radius: 10px;
+    background: #49274b;
+    border-radius: 10px;
   }
   
   ::-webkit-scrollbar-track {
-  border-radius: 10px;
+    border-radius: 10px;
   }
 
   ::-webkit-scrollbar {
-  width: 6px;
+    width: 6px;
   } 
 `
 // const SenderAvatar = styled(Avatar)`
@@ -161,38 +137,23 @@ const SideBarHeader = styled.div`
   display: flex;
   padding: 13px;
   border-bottom: 1px solid #49274b;
+  justify-content: center;
 
- > .MuiSvgIcon-root {
+  > .MuiSvgIcon-root {
     padding: 8px;
     background: #fff;
     color: #49274b;
     border-radius: 999px;
-    font-size: 18px;
+    font-size: 12px;
   }
 `
 
 const SideBarInfo = styled.div`
   flex: 1;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
-  >h2 {
-    font-size: 15px;
-    font-weight: 900;
-    margin-bottom: 5px;
+  > h3 {
+    font-weight: 600;
   }
-  >h3 {
-    display: flex;
-    font-size: 13px;
-    font-weight: 400;
-    align-items: center;
-  }
-  >h3 > .MuiSvgIcon-root {
-    font-size: 14px;
-    margin-top: 1px;
-    margin-right: 2px;
-    color: green ;
-  }
-/* > .MuiSvgIcon-root {
-    color:green;
-  } */
 
 `
