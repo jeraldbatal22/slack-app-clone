@@ -31,7 +31,7 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
       if (channelName.length < 3) {
         return errorMessage('Error', "Name is too short! (Minimum of 3 characters required)");
       }
-      if (find) { 
+      if (find) {
         return errorMessage('Error', "Channel name has already been taken.");
       }
       else {
@@ -43,7 +43,7 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
   }
 
   const selectChannel = () => {
-    if (titleId ) {
+    if (titleId) {
       if (titleId === "home") {
         history.push(`/${titleId}`)
       } else {
@@ -55,15 +55,12 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
       dispatch(enterRoom({
         channelId: id
       }))
-<<<<<<< HEAD
       dispatch(fetchRetrieveMessages(id))
       dispatch(viewMembersToChannelAsync(id))
       history.push(`/homepage`)
-=======
       dispatch(fetchRetrieveMessages(id));
       dispatch(viewMembersToChannelAsync(id));
       history.push(`/homepage`);
->>>>>>> ad73621d98a7bad3f5e6c4267d82263980a0b77d
     }
   }
 
