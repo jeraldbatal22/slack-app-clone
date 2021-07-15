@@ -18,7 +18,7 @@ const LoginForm = () => {
 
   // useSelector to get access the data in redux
   const { errors, isAuth, authId, user } = useSelector(({ auth }) => auth);
-
+  
   const onHandleChange = (e) => {
     const { name, value } = e.target
     formUser[name] = value

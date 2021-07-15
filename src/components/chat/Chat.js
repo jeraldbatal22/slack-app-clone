@@ -88,7 +88,7 @@ const Chat = () => {
                             list.id === member.user_id
                           )
                           return (<tr key={index}>
-                            <td><UserAvatar />{user.uid}</td>
+                            <td><UserAvatar style={{ marginRight: "10px" }} />{user.uid}</td>
                           </tr>)
                         })
                       }
