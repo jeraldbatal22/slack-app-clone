@@ -51,14 +51,14 @@ const CreateMessage = () => {
     <ChatContainer>
       <h2>New Message</h2>
       <form >
-      <div classname="createMessage-to">
-        <label>To</label>
-        <input type="number" value={sendText.receiver_id} name="receiver_id" placeholder="Receiver Id" autoComplete="off" onChange={onHandleChange} />
-      </div>  
-      <div className="createMessage-message">
-        <input type="text" name="message" value={sendText.message} placeholder="Send a message" autoComplete="off" onChange={onHandleChange} />
-        <Button type="submit" onClick={onHandleSend}>SEND</Button>
-      </div>
+        <div classname="createMessage-to">
+          <label>To</label>
+          <input type="number" value={sendText.receiver_id} name="receiver_id" placeholder="Receiver Id" autoComplete="off" onChange={onHandleChange} />
+        </div>
+        <div className="createMessage-message">
+          <input type="text" name="message" value={sendText.message} placeholder="Send a message" autoComplete="off" onChange={onHandleChange} />
+          <Button type="submit" onClick={onHandleSend}>SEND</Button>
+        </div>
       </form>
     </ChatContainer>
   )
@@ -104,7 +104,7 @@ const ChatContainer = styled.div`
   >form >div >input {
     bottom: 30px;
     width: 80%;
-    height: 30px
+    height: 30px;
     border: 1px solid transparent;
     outline: none;
     padding: 20px  }

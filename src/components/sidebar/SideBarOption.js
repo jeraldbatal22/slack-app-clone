@@ -55,7 +55,6 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
       }))
       dispatch(fetchRetrieveMessages(id))
       dispatch(viewMembersToChannelAsync(id))
-
       history.push(`/homepage`)
     }
   }

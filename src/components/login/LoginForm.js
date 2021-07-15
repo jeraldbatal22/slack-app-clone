@@ -47,7 +47,7 @@ const LoginForm = () => {
     } else {
       if (isAuth !== false && authId !== null) {
         dispatch(UsersListAsync())
-        successMessage('Successs!', `Welcome ${user.email}`)
+        successMessage('Success!', `Welcome ${user.email}`)
         history.push('/homepage')
       }
     }

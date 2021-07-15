@@ -65,7 +65,6 @@ const Chat = () => {
             <HeaderLeft>
               <h3>{channelDetails.name}</h3>
             </HeaderLeft>
-              <label><strong>ROOM</strong> {channelDetails.name}</label>
             <HeaderRight>
               <p>
                 <button type="button" onClick={viewMembersToChannel} className="view-members"><PeopleIcon /> View Members</button>
@@ -89,7 +88,7 @@ const Chat = () => {
                             list.id === member.user_id
                           )
                           return (<tr key={index}>
-                            <td><UserAvatar/>{user.uid}</td>
+                            <td><UserAvatar />{user.uid}</td>
                           </tr>)
                         })
                       }
@@ -252,7 +251,7 @@ const ChatMessages = styled.div`
   display: flex;
   flex-direction: column;
   margin: auto; 
-  margin-top: 60px;
+  margin-top: 70px;
 `
 
 const ChatBottom = styled.div`
