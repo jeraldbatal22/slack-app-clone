@@ -26,7 +26,7 @@ const DirectMessage = () => {
   const onHandleSend = (e) => {
     e.preventDefault()
     if (sendText.messages === '') {
-      return errorMessage('Error', "Invalid Reciever")
+      return errorMessage('Error', "Invalid Receiver")
     } else {
       dispatch(fetchSendDirectMessage({
         receiver_id: parseFloat(searchId),
@@ -76,6 +76,7 @@ export default DirectMessage
 
 const ChatInputContainer = styled.div`
   border-radius: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
   >form {
     position: absolute;
@@ -117,11 +118,13 @@ const Header = styled.div`
   justify-content: space-between;
   padding: 20px;
   border-bottom: 1px solid lightgray;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 `
 
 const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
   > h4 {
     display: flex;
@@ -130,6 +133,8 @@ const HeaderLeft = styled.div`
 
 `
 const HeaderRight = styled.div`
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
   > p {
     display: flex;
     align-items: center;
@@ -144,7 +149,7 @@ const HeaderRight = styled.div`
 
 const ChatMessages = styled.div`
   margin-top: 110px;
-  >table {
+  > table {
     margin-top: 20px;
     margin-right: 30px;
     text-align:center;
