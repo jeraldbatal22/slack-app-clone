@@ -8,13 +8,13 @@ const Clock = () => {
     const [clockTime, setClockTime] = useState(dt);
 
     const UpdateClock = () => {
-        dt=new Date().toLocaleTimeString();
+        dt = new Date().toLocaleTimeString();
         setClockTime(dt);
     };
 
-    setInterval(UpdateClock,1000);
+    setInterval(UpdateClock, 1000);
 
-    return(
+    return (
         <div className="clock">
             <h1> {clockTime} </h1>
             <h2> {datestr} </h2>

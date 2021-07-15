@@ -1,12 +1,13 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { fetchDirectMessageToUser } from "../../features/MessagesSlice"
+import { fetchDirectMessageToUser, senderIdMessage } from "../../features/MessagesSlice"
 import styled from 'styled-components'
 import defaultImage from '../../images/profile.jpg'
 import { errorMessage } from '../../utils/message'
+import { Button } from '@material-ui/core'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
 
-const SearchMessage = ({ searchId, setSearchId }) => {
-  const [state, setstate] = useState(false)
   const chatRef = useRef(null)
   const dispatch = useDispatch()
   const { messages, users } = useSelector(store => store)
@@ -17,13 +18,22 @@ const SearchMessage = ({ searchId, setSearchId }) => {
   const onHandleSearch = (e) => {
     e.preventDefault()
     const user = users.list.find(user => user.id === parseFloat(searchId))
-    console.log(user, searchId)
     if (!user) {
       errorMessage('Error', `Id ${searchId} is not registered as a user`)
     } else {
       dispatch(fetchDirectMessageToUser(parseFloat(searchId)))
-      setstate(true)
+      setState(true)
     }
+  }
+
+  const showMessage = (recent) => {
+    dispatch(fetchDirectMessageToUser(parseFloat(recent.id)))
+    dispatch(senderIdMessage({ senderId: recent.id }))
+    setState(true)
+  }
+
+  const back = () => {
+    setState(false)
   }
 
   chatRef?.current?.scrollIntoView({
@@ -32,38 +42,60 @@ const SearchMessage = ({ searchId, setSearchId }) => {
 
   return (
     <FormContainer onSubmit={onHandleSearch}>
+      {state &&
+        <ArrowBackIcon onClick={back} />
+      }
       <HeaderSearch>
-        <h1>Search Conversation: </h1>
+        <h1>Search Conversation</h1>
 
         <input
           ref={chatRef}
           className="maker__name"
           type="number"
-          placeholder="Enter User ID"
+          placeholder="Input User Id"
           onChange={onHandleChange}
         />
 
-        <button ref={chatRef} type="submit" className="maker__action">SUBMIT</button>
+        <button ref={chatRef} type="submit" className="maker__action"  >SUBMIT</button>
       </HeaderSearch>
 
       {
         state &&
           messages.directMsgList &&
           messages.directMsgList.length > 0 ?
-          messages.directMsgList.map((message, index) => (
-            <MessageContainer key={index}>
+          messages.directMsgList.map((message, index) => {
+            const newEmail = message.sender ? message.sender.email.split('@') : "Me"
+            const username = newEmail[0].toUpperCase()
+            return <MessageContainer key={index}>
               <img src={defaultImage} alt='' />
               <MessageInfo>
                 <h4>
-                  {message.sender ? message.sender.email : "Me"}
+                  {message.sender ? username : "Me"}
                   <span>{message.created_at}</span>
                 </h4>
                 <p>{message.body}</p>
               </MessageInfo>
             </MessageContainer>
-          ))
-          : <h1>No conversations found.</h1>
+          })
+          :
+          <RecentMessageInfo >
+            <MessageInfo>
+              {
+                messages.recentMessageList &&
+                messages.recentMessageList.map((recent, index) => {
+                  const newEmail = recent.email.split('@');
+                  const username = newEmail[0].toUpperCase()
+                  return <h2 key={index}>
+                    <img src={defaultImage} alt='' />
+                    <Button onClick={() => showMessage(recent)}>{username}</Button>
+                    {/* <p>{recent.created_at}</p> */}
+                  </h2>
+                })
+              }
+            </MessageInfo>
+          </RecentMessageInfo>
       }
+
       <ChatBottom ref={chatRef} />
 
     </FormContainer>
@@ -73,20 +105,28 @@ const SearchMessage = ({ searchId, setSearchId }) => {
 export default SearchMessage
 
 const FormContainer = styled.form`
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  > h1 {
-    margin-left: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 75vh;
-    font-size: 2rem;
+ > h1 {
+   margin-left: 20px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 75vh;
+   font-size: 3rem;
+  }
+  .MuiSvgIcon-root {
+    margin-left: 30px;
+    position: fixed;
+    cursor: pointer;
+  }
+  .MuiSvgIcon-root:hover {
+    background: #000;
+    color: #fff;
   }
 `
 
 const HeaderSearch = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   position: absolute;
   justify-content: center;
   align-items: center;
@@ -97,9 +137,7 @@ const HeaderSearch = styled.div`
   height: 10vh;
 
   >h1 {
-    font-size: 1.2rem;
-    margin-right: 2%;
-    margin-top: 0.3%;
+    font-size: 1.3rem;
   }
   >button {
     margin-bottom: 200px;
@@ -107,8 +145,13 @@ const HeaderSearch = styled.div`
   }
   >input {
     margin-top: 10px;
-    padding: 5px 10px;
+    padding: 8px 10px;
+    margin-bottom: 7px;
     text-align: center;
+    border: none;
+    background: #3f0f40;
+    border-radius: 10px;
+    color: #fff;
   }
   
 `
@@ -124,6 +167,22 @@ const MessageContainer = styled.div`
   &:hover{
     background-color: whitesmoke;
   }
+
+  > img {
+    height: 45px;
+    border-radius: 999px;
+    margin-left: 30px;
+  }
+`
+
+const RecentMessageInfo = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  padding-left: 30px;
+  width: auto;
+  background-color: white;
+  height: auto;
 
   > img {
     height: 45px;
@@ -157,7 +216,30 @@ const MessageInfo = styled.div`
     background: red;
   }
 
+  h1 {
+    position: fixed;
+    top: 0;
+    margin-top: 80px;
+  }
+
+  h2 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  h2 p {
+    font-size: 1rem;
+  }
+
+  img {
+    width: 40px;
+    border-radius: 999px;
+    margin-left: 30px;
+  }
+ 
+
 `
 const ChatBottom = styled.div`
-  /* padding-bottom: 200px; */
+  padding-bottom: 150px;
 `

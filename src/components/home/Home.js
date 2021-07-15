@@ -18,7 +18,7 @@ const Home = () => {
       <button>Start a direct message</button>
       <button>Create a channel</button>
 
-      <Clock/>
+      {<Clock />}
     </HomeContainer>
   )
 }

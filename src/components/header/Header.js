@@ -2,14 +2,11 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-// Style
 import styled from "styled-components";
 import { Avatar } from "@material-ui/core";
 import { AccessTime, HelpOutline, Search, FiberManualRecord } from "@material-ui/icons";
-// Utilities
 import * as storage from '../../utils/storage';
 import { successMessage, errorMessage } from "../../utils/message";
-// API
 import { getUser } from "../../features/AuthSlice";
 import { clearStateChannels } from "../../features/ChannelsSlice";
 import { clearStateChannelId } from "../../features/RoomSlice";
@@ -24,7 +21,8 @@ const Header = () => {
   const { auth, users } = useSelector((store) => store);
 
   const email = auth.user.email;
-  const newEmail = email.charAt(0).toLowerCase() + email.slice(1);
+  const newEmail = email.split('@');
+  const username = newEmail[0].toUpperCase()
 
   const onHandleLogout = () => {
     storage.remove(storage.AUTH_KEY);
@@ -53,6 +51,7 @@ const Header = () => {
   const onHandleSearch = (e) => {
     e.preventDefault();
     const userId = users.list.find(index => index.id === parseFloat(searchId));
+    console.log(userId)
     if (!userId) {
       errorMessage('Error', `User ID: ${searchId} is not a registered user.`);
     }
@@ -64,7 +63,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <HeaderLeft>
-        <FiberManualRecord /><h5>{newEmail}</h5>
+        <FiberManualRecord /><h5>{username}</h5>
       </HeaderLeft>
       <AccessTime />
 

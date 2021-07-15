@@ -1,20 +1,18 @@
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-// style
 import styled from "styled-components";
 import { errorMessage, successMessage } from "../../utils/message";
-// API
-import { fetchRetrieveMessages } from "../../features/MessagesSlice";
+import { fetchRetrieveMessages, fetchRecentMessageToUser } from "../../features/MessagesSlice";
 import { addChannelAsync, viewMembersToChannelAsync } from "../../features/ChannelsSlice";
 import { enterRoom } from "../../features/RoomSlice";
 
-const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOption, titleId }) => {
+const SideBarOption = ({ Icon, title, addChannelOption, id, titleId }) => {
 
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [addChannelState, setAddChannelState] = useState({ //initial state
+  const [addChannelState, setAddChannelState] = useState({
     name: '',
     user_ids: []
   })
@@ -37,6 +35,7 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
       else {
         setAddChannelState(addChannelState.name = channelName);
         dispatch(addChannelAsync(addChannelState));
+        setAddChannelState({ ...addChannelState, name: '' })
         return successMessage('Success', `Successfully added channel: ${channelName.toLocaleUpperCase()}`);
       }
     }
@@ -47,7 +46,7 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
       if (titleId === "home") {
         history.push(`/${titleId}`)
       } else {
-        history.push(`/${titleId}`)
+        history.push(`/home`)
         return errorMessage('Error', "This feature is not available yet.")
       }
     }
@@ -61,7 +60,9 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
       dispatch(fetchRetrieveMessages(id));
       dispatch(viewMembersToChannelAsync(id));
       history.push(`/homepage`);
+      console.log(id)
     }
+    dispatch(fetchRecentMessageToUser())
   }
 
   return (

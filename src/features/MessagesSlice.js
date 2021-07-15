@@ -37,10 +37,20 @@ export const fetchDirectMessageToUser = createAsyncThunk(
   async (payload) => {
     try {
       const data = await axios.get(`messages?receiver_class=User&receiver_id=${payload}`, true) // GET all messages data per user id from api axios axiosApi.js
+      console.log(data)
       return data
     } catch (err) {
       return { error: false }
     }
+  }
+)
+
+export const fetchRecentMessageToUser = createAsyncThunk(
+  'messages/fetchRecentMessageToUser',
+  async () => {
+    const data = await axios.get(`users/recent`, true) // POST send messages data to user id from api axios axiosApi.js
+    // console.log(data)
+    return data
   }
 )
 
@@ -51,6 +61,8 @@ const RetrieveMessagesSlice = createSlice({
     status: null,
     list: null,
     directMsgList: [],
+    recentMessageList: [],
+    senderId: null,
   },
 
   reducers: {
@@ -59,9 +71,13 @@ const RetrieveMessagesSlice = createSlice({
       state.status = null
       state.list = null
       state.directMsgList = []
+      state.recentMessageList = []
     },
     clearDirectMessage: (state, { payload }) => {
       state.directMsgList = []
+    },
+    senderIdMessage: (state, { payload }) => {
+      state.senderId = payload.senderId
     }
   },
 
@@ -92,8 +108,12 @@ const RetrieveMessagesSlice = createSlice({
       state.directMsgList = action.payload.data
     },
 
+    [fetchRecentMessageToUser.fulfilled]: (state, action) => {
+      state.recentMessageList = action.payload.data
+    },
+
   },
 })
 
-export const { clearStateRetrieveMessages, clearDirectMessage } = RetrieveMessagesSlice.actions
+export const { clearStateRetrieveMessages, clearDirectMessage, senderIdMessage } = RetrieveMessagesSlice.actions
 export default RetrieveMessagesSlice.reducer
