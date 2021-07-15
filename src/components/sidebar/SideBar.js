@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Create, FiberManualRecord, Add, ExpandMore, InsertComment, Inbox, Drafts, BookmarkBorder, FileCopy, PeopleAlt, Apps, ExpandLess, Message } from "@material-ui/icons"
+import { Create, FiberManualRecord, Add, ExpandMore, InsertComment, Inbox, Drafts, BookmarkBorder, FileCopy, PeopleAlt, Apps, ExpandLess, Message, Home } from "@material-ui/icons"
 import SideBarOption from './SideBarOption'
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
@@ -41,6 +41,7 @@ const SideBar = () => {
         </SideBarInfo>
         <CreateMessage onClick={createMessage} />
       </SideBarHeader>
+      <SideBarOption Icon={Home} title="Home" titleId="home" />
       <SideBarOption Icon={InsertComment} title="Threads" titleId="threads" />
       <SideBarOption Icon={Inbox} title="Mentions & reactions" titleId="mention-reaction" />
       <SideBarOption Icon={Drafts} title="Saved Items" titleId="save-items" />

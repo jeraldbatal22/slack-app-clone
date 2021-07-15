@@ -19,6 +19,7 @@ const Chat = () => {
     const addMember = prompt("Enter User id number");
 
     const index = channels.memberList.find(index => index.user_id === parseFloat(addMember))
+    const user = users.list.find(user => user.id === parseFloat(addMember))
     if (addMember === '') {
       return errorMessage('Error', 'Input channel id')
     }
@@ -27,8 +28,12 @@ const Chat = () => {
     }
     if (addMember) {
 
-      if (addMember > users.list.length || isNaN(addMember) || addMember === '0') {
+      if (addMember > users.list.length || isNaN(addMember)) {
         return errorMessage('Error', `Invalid user id`)
+      }
+
+      if (!user) {
+        return errorMessage('Error', `Id ${addMember} is not registered as a user`)
       }
 
       if (addMember)
@@ -36,6 +41,7 @@ const Chat = () => {
           member_id: parseFloat(addMember), // User ID of the new member user
           id: channelDetails.id // Channel ID
         }))
+
       return successMessage('Success', 'Successfully and member in this channel')
     }
   }
@@ -46,9 +52,7 @@ const Chat = () => {
   }
 
   useEffect(() => {
-    chatRef?.current?.scrollIntoView({
-      behavior: 'smooth'
-    });
+    chatRef?.current?.scrollIntoView();
   }, [roomId]) /// to scroll at the current chat when loading
 
   return (
@@ -78,7 +82,7 @@ const Chat = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>{channelDetails.name} member list</th>
+                    <th>{channelDetails.name.toUpperCase()} MEMBERS</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -167,13 +171,20 @@ const HeaderRight = styled.div`
     margin-right: 20px;
     float: right;
     cursor: pointer;
+    border-radius: 20px;
+    border: none;
+    padding: 5px;
+  }
+
+  button:hover {
+    color: #fff;
+    background: #3f0f40;
   }
 
 `
 
 const ChatMessages = styled.div`
   margin-top: 60px;
-
  
   > table {
     position: absolute;
@@ -182,11 +193,12 @@ const ChatMessages = styled.div`
     margin-right: 150px;
     float: right;
     text-align:center;
+    border: 1px solid;
   }
 
   > table tbody {
     margin: 0px 20px;
-
+    
   }
 
 `

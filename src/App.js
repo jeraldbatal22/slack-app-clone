@@ -21,6 +21,7 @@ import DirectMessage from './components/chat/DirectMessage';
 import UserProfile from './components/users/UserProfile'
 import CreateMessage from './components/chat/CreateMessage';
 import { channelsListOwnedAsync } from './features/ChannelsSlice'
+import Home from './components/home/Home';
 
 function App() {
 
@@ -62,6 +63,9 @@ function App() {
                 <Route path="/homepage">
                   <Chat />
                 </Route>
+                <Route path="/home">
+                  <Home />
+                </Route>
                 <Route path="/messages">
                   <DirectMessage />
                 </Route>
@@ -74,7 +78,7 @@ function App() {
               </Switch>
 
             </AppBody>
-            : <Redirect to="/homepage"></Redirect>}
+            : <Redirect to="/home"></Redirect>}
 
         </Switch>
       </Router>

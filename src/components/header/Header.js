@@ -10,7 +10,7 @@ import { clearStateChannels } from "../../features/ChannelsSlice";
 import { clearStateChannelId } from "../../features/RoomSlice";
 import { clearStateRetrieveMessages } from "../../features/MessagesSlice";
 import { UsersListAsync, searchUser } from "../../features/UsersSlice";
-import { successMessage } from "../../utils/message";
+import { successMessage, errorMessage } from "../../utils/message";
 import { useState } from "react";
 import { clearIdSearch } from '../../features/UsersSlice'
 
@@ -18,6 +18,7 @@ const Header = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { auth, users } = useSelector((store) => store)
+
   const email = auth.user.email
   const newEmail = email.charAt(0).toUpperCase() + email.slice(1)
 
@@ -47,6 +48,9 @@ const Header = () => {
   const onHandleSearch = (e) => {
     e.preventDefault()
     const userId = users.list.find(index => index.id === parseFloat(searchId))
+    if (!userId) {
+      errorMessage('Error', `Id ${searchId} is not registered as a user`)
+    }
     history.push('/profile')
     dispatch(searchUser(userId))
     setSearchId('')

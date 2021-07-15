@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { Button } from "@material-ui/core"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useState } from "react"
 import { errorMessage, successMessage } from "../../utils/message"
 import { fetchSendDirectMessage } from "../../features/MessagesSlice"
@@ -18,14 +18,18 @@ const CreateMessage = () => {
     setSendText({ ...sendText })
   }
 
-  // const { messages } = useSelector(store => store)
+  const { users } = useSelector(store => store)
   const onHandleSend = (e) => {
     e.preventDefault()
+    const userId = users.list.find(index => index.id === parseFloat(sendText.receiver_id))
     if (sendText.receiver_id === '') {
       return errorMessage('Error', "Input sender id")
     }
     if (sendText.message === '') {
       return errorMessage('Error', "Input some message")
+    }
+    if (!userId) {
+      errorMessage('Error', `Id ${sendText.receiver_id} is not registered as a user`)
     }
     else {
       dispatch(fetchSendDirectMessage({

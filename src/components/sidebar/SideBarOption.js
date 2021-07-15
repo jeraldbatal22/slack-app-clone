@@ -14,6 +14,7 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
     name: '',
     user_ids: []
   })
+
   const { channels } = useSelector(store => store)
   const addChannel = () => {
     const channelnName = prompt('please enter the channel name')
@@ -41,8 +42,12 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, addDirectMessageOpti
 
   const selectChannel = () => {
     if (titleId) {
-      history.push(`/homepage/${titleId}`)
-      return errorMessage('error', "This features is not available yet.")
+      if (titleId === "home") {
+        history.push(`/${titleId}`)
+      } else {
+        history.push(`/${titleId}`)
+        return errorMessage('error', "This features is not available yet.")
+      }
     }
     if (id) {
       dispatch(enterRoom({

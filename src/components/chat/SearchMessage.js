@@ -3,20 +3,27 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchDirectMessageToUser } from "../../features/MessagesSlice"
 import styled from 'styled-components'
 import defaultImage from '../../images/profile.jpg'
+import { errorMessage } from '../../utils/message'
 
 const SearchMessage = ({ searchId, setSearchId }) => {
   const [state, setstate] = useState(false)
   const chatRef = useRef(null)
   const dispatch = useDispatch()
-  const { messages } = useSelector(store => store)
+  const { messages, users } = useSelector(store => store)
   const onHandleChange = (e) => {
     setSearchId(e.target.value)
   }
 
   const onHandleSearch = (e) => {
     e.preventDefault()
-    dispatch(fetchDirectMessageToUser(parseFloat(searchId)))
-    setstate(true)
+    const user = users.list.find(user => user.id === parseFloat(searchId))
+    console.log(user, searchId)
+    if (!user) {
+      errorMessage('Error', `Id ${searchId} is not registered as a user`)
+    } else {
+      dispatch(fetchDirectMessageToUser(parseFloat(searchId)))
+      setstate(true)
+    }
   }
 
   chatRef?.current?.scrollIntoView({
