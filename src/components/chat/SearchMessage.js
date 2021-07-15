@@ -30,7 +30,6 @@ const SearchMessage = ({ searchId, setSearchId }) => {
     behavior: 'smooth'
   });
 
-
   return (
     <FormContainer onSubmit={onHandleSearch}>
       <HeaderSearch>
@@ -44,7 +43,7 @@ const SearchMessage = ({ searchId, setSearchId }) => {
           onChange={onHandleChange}
         />
 
-        <button ref={chatRef} type="submit" className="maker__action"  >submit</button>
+        <button ref={chatRef} type="submit" className="maker__action"  >SUBMIT</button>
       </HeaderSearch>
 
       {
@@ -76,6 +75,11 @@ export default SearchMessage
 const FormContainer = styled.form`
  > h1 {
    margin-left: 20px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 75vh;
+   font-size: 3rem;
   }
 `
 
@@ -86,11 +90,13 @@ const HeaderSearch = styled.div`
   justify-content: center;
   align-items: center;
   width: 80%;
-  margin-top: 77px;
+  margin-top: 62px;
   margin-right: 160px;
   top: 0;
+  height: 10vh;
+
   >h1 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
   >button {
     margin-bottom: 200px;
@@ -107,7 +113,14 @@ const HeaderSearch = styled.div`
 const MessageContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
+  padding-left: 30px;
+  width: auto;
+  background-color: white;
+  height: auto;
+  &:hover{
+    background-color: whitesmoke;
+  }
 
   > img {
     height: 45px;
