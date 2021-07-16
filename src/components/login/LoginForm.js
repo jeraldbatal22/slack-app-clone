@@ -18,7 +18,7 @@ const LoginForm = () => {
 
   // useSelector to get access the data in redux
   const { errors, isAuth, authId, user } = useSelector(({ auth }) => auth);
-  
+
   const onHandleChange = (e) => {
     const { name, value } = e.target
     formUser[name] = value
@@ -48,7 +48,7 @@ const LoginForm = () => {
       if (isAuth !== false && authId !== null) {
         dispatch(UsersListAsync())
         successMessage('Success!', `Welcome ${user.email}`)
-        history.push('/homepage')
+        history.push('/home')
       }
     }
   }, [errors, user, authId, dispatch, history, isAuth])

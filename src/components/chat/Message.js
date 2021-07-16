@@ -3,8 +3,14 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { fetchRetrieveMessages } from "../../features/MessagesSlice"
 import defaultImage from '../../images/profile.jpg'
+import moment from "moment"
 
 const Message = ({ item, senderName }) => {
+  const dateString = new Date(item.created_at)
+  const date = dateString.toDateString()
+  const hours = dateString.toLocaleTimeString()
+  // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  // console.log(moment().format(dateString))
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -17,7 +23,8 @@ const Message = ({ item, senderName }) => {
         <h4>
           {senderName}
           <span>
-            {item.created_at}
+            {date}
+            <span> {hours}</span>
           </span>
         </h4>
         <p>{item.body}</p>

@@ -7,7 +7,6 @@ import { errorMessage } from '../../utils/message'
 import { Button } from '@material-ui/core'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
-
   const chatRef = useRef(null)
   const dispatch = useDispatch()
   const { messages, users } = useSelector(store => store)
@@ -41,7 +40,6 @@ const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
   const back = () => {
     dispatch(clearDirectMessage())
     setState(false)
-
   }
 
   chatRef?.current?.scrollIntoView({
@@ -74,12 +72,16 @@ const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
           messages.directMsgList.map((message, index) => {
             const newEmail = message.sender ? message.sender.email.split('@') : "Me"
             const username = newEmail[0].toUpperCase()
+            const dateString = new Date(message.created_at)
+            const date = dateString.toDateString()
+            const hours = dateString.toLocaleTimeString()
+
             return <MessageContainer key={index}>
               <img src={defaultImage} alt='' />
               <MessageInfo>
                 <h4>
                   {message.sender ? username : "Me"}
-                  <span>{message.created_at}</span>
+                  <span>{date}<span>{hours}</span></span>
                 </h4>
                 <p>{message.body}</p>
               </MessageInfo>
@@ -245,9 +247,8 @@ const MessageInfo = styled.div`
     border-radius: 999px;
     margin-left: 30px;
   }
- 
-
 `
+
 const ChatBottom = styled.div`
-  padding-bottom: 150px;
+  padding-bottom: 0px;
 `

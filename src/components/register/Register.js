@@ -52,7 +52,7 @@ const Register = () => {
       return errorMessage('Error', `${errors}`)
     } else {
       if (data !== null) {
-        successMessage('Successs!', `Successfully registered`)
+        successMessage('Success!', `Successfully registered`)
         history.push('/login')
       }
     }

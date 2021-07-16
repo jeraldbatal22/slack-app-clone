@@ -49,7 +49,7 @@ const SideBar = () => {
       <SideBarOption Icon={ExpandLess} title="Show Less" titleId="showless" />
       <hr />
       <SideBarOption Icon={ExpandMore} title="Show More" titleId="showmore" />
-      <button onClick={showDirectMessage}> <SideBarOption Icon={Message} title="Direct Message" /></button>
+      <button onClick={showDirectMessage}> <SideBarOption Icon={Message} title="Recent Message" /></button>
       <hr />
       <SideBarOption Icon={Add} addChannelOption title="Add Channel" />
       <hr />
