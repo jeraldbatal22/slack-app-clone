@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux"
 import { fetchSendDirectMessage } from "../../features/MessagesSlice"
 import { errorMessage } from "../../utils/message"
 import SearchMessage from './SearchMessage'
+import { Send } from "@material-ui/icons"
 
 const DirectMessage = () => {
   const chatRef = useRef(null)
@@ -65,7 +66,7 @@ const DirectMessage = () => {
       <ChatInputContainer>
         <form onSubmit={onHandleSend}>
           <input ref={chatRef} type="text" name="message" placeholder="Send a message" value={sendText.message} autoComplete="off" onChange={onHandleChange} />
-          <Button type="submit">SEND</Button>
+          <Button type="submit">SEND <Send/></Button>
         </form>
       </ChatInputContainer>
     </ChatContainer>

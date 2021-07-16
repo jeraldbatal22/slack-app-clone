@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { fetchSendMessageToChannel, fetchRetrieveMessages } from "../../features/MessagesSlice"
 import { Send } from "@material-ui/icons"
+
 const ChatInput = ({ channelDetails, user, chatRef }) => {
   const dispatch = useDispatch()
   const [inputMessage, setInputMessage] = useState('')

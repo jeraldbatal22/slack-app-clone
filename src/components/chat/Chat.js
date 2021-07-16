@@ -65,7 +65,6 @@ const Chat = () => {
             <HeaderLeft>
               <h3>{channelDetails.name}</h3>
             </HeaderLeft>
-              <label><strong>ROOM</strong> {channelDetails.name}</label>
             <HeaderRight>
               <p>
                 <button type="button" onClick={viewMembersToChannel} className="view-members"><PeopleIcon /> View Members</button>
@@ -252,7 +251,7 @@ const ChatMessages = styled.div`
   display: flex;
   flex-direction: column;
   margin: auto; 
-  margin-top: 60px;
+  margin-top: 70px;
 `
 
 const ChatBottom = styled.div`

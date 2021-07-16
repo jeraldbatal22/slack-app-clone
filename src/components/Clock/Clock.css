@@ -2,26 +2,29 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction:column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-
+    /* position: absolute;
+    left: 85vw;
+    top: 12vh; */
     transition: 0.3s;
     transition-property: border, box-shadow;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .clock h1 {
-    font-size:2em;
+    font-size:1.75rem;
     font-weight: 700;
-    color: #2EB67D;
+    color: #3f0f40;
     letter-spacing: 3px;
 
     text-align: right;
 }
 
 .clock h2 {
-    font-size:1.2em;
+    font-size:1.2rem;
     font-weight: 600;
     letter-spacing: 1px;
-    color: #2EB67D;
+    color: #3f0f40;
     text-align: right;
 }
