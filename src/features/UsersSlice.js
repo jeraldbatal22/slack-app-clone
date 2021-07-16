@@ -14,7 +14,7 @@ const UsersList = createSlice({
   initialState: {
     status: false,
     list: [],
-    idSearch: null
+    idSearch: null,
   },
   reducers: {
     clearStateChannels(state, action) {
@@ -28,6 +28,7 @@ const UsersList = createSlice({
     },
     clearIdSearch(state, action) {
       state.idSearch = null
+      state.emailSearch = null
       return state
     },
   },

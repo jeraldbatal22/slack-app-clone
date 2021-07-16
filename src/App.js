@@ -1,12 +1,7 @@
 import './App.css';
 import styled from 'styled-components';
 import SideBar from './components/sidebar/SideBar';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Header from './components/header/Header.js'
 import Chat from './components/chat/Chat';
 import Login from './components/login/Login';

@@ -4,7 +4,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { errorMessage, successMessage } from "../../utils/message";
 import { fetchRetrieveMessages, fetchRecentMessageToUser } from "../../features/MessagesSlice";
-import { addChannelAsync, viewMembersToChannelAsync } from "../../features/ChannelsSlice";
+import { addChannelAsync, viewMembersToChannelAsync, channelsListAsync } from "../../features/ChannelsSlice";
 import { enterRoom } from "../../features/RoomSlice";
 
 const SideBarOption = ({ Icon, title, addChannelOption, id, titleId }) => {
@@ -28,6 +28,9 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, titleId }) => {
     if (channelName) {
       if (channelName.length < 3) {
         return errorMessage('Error', "Name is too short! (Minimum of 3 characters required)");
+      }
+      if (channelName.length > 15) {
+        return errorMessage('Error', 'Name is too long (maximum is 15 characters)')
       }
       if (find) {
         return errorMessage('Error', "Channel name has already been taken.");
@@ -54,11 +57,11 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, titleId }) => {
       dispatch(enterRoom({
         channelId: id
       }))
+      dispatch(channelsListAsync())
       dispatch(fetchRetrieveMessages(id))
       dispatch(viewMembersToChannelAsync(id))
       history.push(`/homepage`)
       dispatch(fetchRetrieveMessages(id));
-      dispatch(viewMembersToChannelAsync(id));
       history.push(`/homepage`);
       console.log(id)
     }

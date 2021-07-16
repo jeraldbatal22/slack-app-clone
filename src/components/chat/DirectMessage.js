@@ -11,7 +11,7 @@ const DirectMessage = () => {
   const chatRef = useRef(null)
   const dispatch = useDispatch()
   const [state, setState] = useState(false)
-  const [searchId, setSearchId] = useState()
+  const [searchId, setSearchId] = useState('')
 
   const [sendText, setSendText] = useState({
     message: '',
@@ -32,7 +32,7 @@ const DirectMessage = () => {
       return errorMessage('Error', "Invalid Receiver")
     } else {
       dispatch(fetchSendDirectMessage({
-        receiver_id: parseFloat(searchId) || messages.senderId,
+        receiver_id: parseFloat(searchId) || parseFloat(messages.senderId),
         receiver_class: 'User',
         body: sendText.message
       }))
@@ -42,7 +42,6 @@ const DirectMessage = () => {
       })
     }
   }
-
   chatRef?.current?.scrollIntoView({
     behavior: 'smooth'
   });
@@ -68,7 +67,7 @@ const DirectMessage = () => {
       <ChatInputContainer>
         <form onSubmit={onHandleSend}>
           {
-            state && <> <input ref={chatRef} type="text" name="message" placeholder="Send a message" value={sendText.message} autoComplete="off" onChange={onHandleChange} />
+            state && messages.directMsgList.length > 0 && <> <input ref={chatRef} type="text" name="message" placeholder="Send a message" value={sendText.message} autoComplete="off" onChange={onHandleChange} />
               <Button type="submit">SEND</Button></>
           }
         </form>
