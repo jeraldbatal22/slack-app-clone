@@ -115,10 +115,10 @@ const Chat = () => {
             }
           </ChatMessages>
           <ChatBottom ref={chatRef} />
-
-          <ChatInput chatRef={chatRef} channelDetails={channelDetails ? channelDetails : ''} />
         </>
       )}
+      <ChatInput chatRef={chatRef} channelDetails={channelDetails ? channelDetails : ''} />
+
     </ChatContainer>
   )
 }

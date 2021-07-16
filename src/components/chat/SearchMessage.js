@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { fetchDirectMessageToUser, senderIdMessage } from "../../features/MessagesSlice"
+import { fetchDirectMessageToUser, senderIdMessage, clearDirectMessage } from "../../features/MessagesSlice"
 import styled from 'styled-components'
 import defaultImage from '../../images/profile.jpg'
 import { errorMessage } from '../../utils/message'
@@ -19,9 +19,15 @@ const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
     e.preventDefault()
     const user = users.list.find(user => user.id === parseFloat(searchId))
     if (!user) {
-      errorMessage('Error', `Id ${searchId} is not registered as a user`)
-    } else {
-      dispatch(fetchDirectMessageToUser(parseFloat(searchId)))
+      return errorMessage('Error', `Id ${searchId} is not registered as a user`)
+    }
+    if (messages.directMsgList.length > 0) {
+      console.log(messages.directMsgList.length)
+      return errorMessage('Error', `No conversation history found with ${user.email}`)
+    }
+    else {
+      dispatch(fetchDirectMessageToUser(searchId))
+      // dispatch(senderIdMessage({ senderId: searchId }))
       setState(true)
     }
   }
@@ -33,7 +39,9 @@ const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
   }
 
   const back = () => {
+    dispatch(clearDirectMessage())
     setState(false)
+
   }
 
   chatRef?.current?.scrollIntoView({

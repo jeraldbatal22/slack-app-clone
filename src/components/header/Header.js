@@ -50,10 +50,10 @@ const Header = () => {
 
   const onHandleSearch = (e) => {
     e.preventDefault();
-    const userId = users.list.find(index => index.id === parseFloat(searchId));
+    const userId = users.list.find(index => index.id === parseFloat(searchId) || index.email === searchId);
     console.log(userId)
     if (!userId) {
-      errorMessage('Error', `User ID: ${searchId} is not a registered user.`);
+      errorMessage('Error', `${searchId} is not registered as a user.`);
     }
     history.push('/profile');
     dispatch(searchUser(userId));
@@ -69,7 +69,7 @@ const Header = () => {
 
       <form onSubmit={onHandleSearch}>
         <HeaderSearch>
-          <input type="number" value={searchId} placeholder={`Search users via User ID: `} onChange={onHandleChange} />
+          <input type="text" value={searchId} placeholder={`Search users via User Id or Email`} onChange={onHandleChange} />
           <Search />
           <button type="submit">Search</button>
         </HeaderSearch>
