@@ -84,14 +84,18 @@ const Chat = () => {
                       {
                         channels.memberList &&
                         channels.memberList.map((member, index) => {
+
                           const user = users.list.find((list) =>
                             list.id === member.user_id
                           )
+                          const newEmail = user.uid.split('@');
+                          const username = newEmail[0].toUpperCase()
                           return (<tr key={index}>
-                            <td><UserAvatar/>{user.uid}</td>
+                            <td><UserAvatar style={{ marginRight: "10px", marginLeft: '-10px' }} />{username}</td>
                           </tr>)
                         })
                       }
+
                     </tbody>
                   </table>
                 }
@@ -104,11 +108,14 @@ const Chat = () => {
             {
               messages.list ? (
                 messages.list !== null && roomId.roomId === channelDetails.id ?
-                  messages.list.map((item, index) => (
-                    <Message key={index} item={item} senderName={item.sender ? item.sender.email : "Me"} />
-                  ))
+                  messages.list.map((item, index) => {
+                    const newEmail = item.sender ? item.sender.email.split('@') : "Me"
+                    const username = newEmail[0].toUpperCase()
+                    return <Message key={index} item={item} senderName={item.sender ? username : "Me"} />
+                  })
                   : '') : ''
             }
+
           </ChatMessages>
           <ChatBottom ref={chatRef} />
 
@@ -181,13 +188,15 @@ const HeaderRight = styled.div`
   }
 
   > p > button {
+    padding: 5px 15px;
     display: flex;
     align-items: center;
-    margin-right: 20px;
+    margin-right: 30px;
     float: right;
     cursor: pointer;
-    border-radius: 50px;
+    border: none;
   }
+
 
   > p > table {
     display: flex;

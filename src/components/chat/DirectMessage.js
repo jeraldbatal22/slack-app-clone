@@ -66,7 +66,7 @@ const DirectMessage = () => {
       <ChatInputContainer>
         <form onSubmit={onHandleSend}>
           <input ref={chatRef} type="text" name="message" placeholder="Send a message" value={sendText.message} autoComplete="off" onChange={onHandleChange} />
-          <Button type="submit">SEND <Send/></Button>
+          <Button type="submit">SEND <Send /></Button>
         </form>
       </ChatInputContainer>
     </ChatContainer>
@@ -103,12 +103,14 @@ const ChatInputContainer = styled.div`
     font: 1rem;
   }
 `
+
 const ChatContainer = styled.div`
   flex: 0.7;
   flex-grow: 1;
   overflow-y: scroll;
   margin-top: 60px;
 `
+
 const Header = styled.div`
   background: #fff;
   width: 78%;
