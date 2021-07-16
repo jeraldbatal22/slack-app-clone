@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as axios from '../utils/axiosApi'
+
 export const channelsListAsync = createAsyncThunk(
   'channels/channelsListAsync',
   async () => {
@@ -12,11 +13,9 @@ export const channelsListOwnedAsync = createAsyncThunk(
   'channels/channelsListOwnedAsync',
   async () => {
     const data = await axios.get('channel/owned', true)
-    // console.log(data)
     return data
   }
 )
-
 
 export const addChannelAsync = createAsyncThunk(
   'channels/addChannelAsync',

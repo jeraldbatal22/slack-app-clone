@@ -51,7 +51,6 @@ const Header = () => {
   const onHandleSearch = (e) => {
     e.preventDefault();
     const userId = users.list.find(index => index.id === parseFloat(searchId) || index.email === searchId);
-    console.log(userId)
     if (!userId) {
       errorMessage('Error', `${searchId} is not registered as a user.`);
     }
@@ -176,7 +175,6 @@ const HeaderRight = styled.div`
   > button {
     cursor: pointer;
     color: #fff;
-    font-weight: 750;
     background: none;
     border: none;
     margin-right: 20px;

@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import { StarBorder, InfoOutlined, Add } from '@material-ui/icons';
-import ChatInput from './ChatInput';
+import PeopleIcon from '@material-ui/icons/People';
+import { Avatar } from '@material-ui/core';
+import { StarBorder, Add } from '@material-ui/icons';
 import Message from './Message';
+import ChatInput from './ChatInput';
 import { errorMessage, successMessage } from '../../utils/message';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { viewMembersToChannelAsync, addMemberToChannelAsync } from '../../features/ChannelsSlice';
-import PeopleIcon from '@material-ui/icons/People';
-import { Avatar } from '@material-ui/core';
 
 const Chat = () => {
 
@@ -138,7 +138,7 @@ const ChatContainer = styled.div`
 
 const Header = styled.div`
   background: #fff;
-  width: 78%;
+  width: 83%;
   position: fixed;
   display: flex;
   justify-content: space-between;

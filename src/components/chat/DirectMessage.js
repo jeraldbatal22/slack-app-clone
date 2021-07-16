@@ -162,6 +162,7 @@ const ChatMessages = styled.div`
     margin-top: 20px;
     margin-right: 30px;
     text-align:center;
+    margin-bottom: 200px;
   }
   > table tbody {
     margin: 0px 20px;
@@ -170,5 +171,5 @@ const ChatMessages = styled.div`
 `
 
 const ChatBottom = styled.div`
-  padding-bottom: 50px;
+  padding-bottom: 150px;
 `

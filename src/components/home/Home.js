@@ -1,12 +1,52 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Clock from "../Clock/Clock";
 import slackLogo from "../../images/slackLogo.png"
 import { Send } from '@material-ui/icons';
 import { Add } from '@material-ui/icons';
+import { useHistory } from 'react-router-dom';
+import { errorMessage, successMessage } from "../../utils/message";
+import { addChannelAsync } from "../../features/ChannelsSlice";
+
 const Home = () => {
-  const { auth } = useSelector(store => store)
+  const { auth, channels } = useSelector(store => store)
+  const dispatch = useDispatch();
+
+  const [addChannelState, setAddChannelState] = useState({
+    name: '',
+    user_ids: []
+  })
+
+  const history = useHistory()
+  const sendMessage = () => {
+    history.push('createMessage')
+  }
+
+  const addChannel = () => {
+    const channelName = prompt('Please enter a channel name: ');
+    const find = channels.list.find(channelName => channelName.name === channelName);
+    if (channelName === "") {
+      return errorMessage('Error', "Name can't be blank.");
+    }
+    if (channelName) {
+      if (channelName.length < 3) {
+        return errorMessage('Error', "Name is too short! (Minimum of 3 characters required)");
+      }
+      if (channelName.length > 15) {
+        return errorMessage('Error', 'Name is too long (maximum is 15 characters)')
+      }
+      if (find) {
+        return errorMessage('Error', "Channel name has already been taken.");
+      }
+      else {
+        setAddChannelState(addChannelState.name = channelName);
+        dispatch(addChannelAsync(addChannelState));
+        setAddChannelState({ ...addChannelState, name: '' })
+        return successMessage('Success', `Successfully added channel: ${channelName.toLocaleUpperCase()}`);
+      }
+    }
+  }
   return (
     <HomeContainer>
       <HomeTitle>
@@ -18,26 +58,26 @@ const Home = () => {
         <p>A secure space to work with other companies, just like you do with your own team</p>
         <div className="home-welcome-container">
           <div>
-          <img src="https://a.slack-edge.com/6c404/marketing/img/homepage/bold-existing-users/waving-hand.gif" srcset="https://a.slack-edge.com/6c404/marketing/img/homepage/bold-existing-users/waving-hand.gif 1x, https://a.slack-edge.com/6c404/marketing/img/homepage/bold-existing-users/waving-hand@2x.gif 2x" alt="" height="56" width="52"/>
-          <h1>Welcome back </h1>
+            <img src="https://a.slack-edge.com/6c404/marketing/img/homepage/bold-existing-users/waving-hand.gif" srcset="https://a.slack-edge.com/6c404/marketing/img/homepage/bold-existing-users/waving-hand.gif 1x, https://a.slack-edge.com/6c404/marketing/img/homepage/bold-existing-users/waving-hand@2x.gif 2x" alt="" height="56" width="52" />
+            <h1>Welcome back </h1>
           </div>
           <div className="welcome-workspace-container">
             <h4> Workspaces for {auth.user.email}</h4>
-            <hr/>
+            <hr />
             <div className="workspace-subcontainer">
               <div>
-                <img class="ss-c-workspace-detail__icon" src="https://avatars.slack-edge.com/2021-01-14/1620922289399_34e39fe253a871b90028_88.png" alt="" aria-hidden="" height="75" width="75"/>
+                <img className="ss-c-workspace-detail__icon" src="https://avatars.slack-edge.com/2021-01-14/1620922289399_34e39fe253a871b90028_88.png" alt="" />
                 <h3>Avion School</h3>
               </div>
               <div className="home-button-container">
-                <button> Send a message <Send/></button>
-                <button>Create a channel <Add/></button>
+                <button onClick={sendMessage}> Send a message <Send /></button>
+                <button onClick={addChannel}>Create a channel <Add /></button>
               </div>
 
             </div>
           </div>
         </div>
-        <Clock/>
+        <Clock />
       </HomeTitle>
 
     </HomeContainer>
@@ -72,7 +112,7 @@ const HomeTitle = styled.div`
   font-family: Larsseit,"Helvetica Neue",Helvetica,"Segoe UI",Tahoma,Arial,sans-serif;;
   > .home-logo-container{
     display: flex;
-    flex-direction; row;
+    flex-direction: row;
     align-items: center;
     padding: 5px;
     width: auto;
@@ -83,7 +123,7 @@ const HomeTitle = styled.div`
       color: #4A154B;
       text-align: bottom;
       align-self: top;
-      padding-left 3px;
+      padding-left: 3px;
     }
   }
 
@@ -153,7 +193,7 @@ const HomeTitle = styled.div`
   > p{
     padding: 10px;
     text-align: left;
-    color: white;
+    color: #000;
     font-size: .75em;
   }
   img {

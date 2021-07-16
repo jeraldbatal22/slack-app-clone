@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-// import moment from 'moment'
 
 const roomSlice = createSlice({
   name: 'channelId',
@@ -17,5 +16,4 @@ const roomSlice = createSlice({
 })
 
 export const { enterRoom, clearStateChannelId } = roomSlice.actions
-// export const selectRoomId = state => state.app.roomId
 export default roomSlice.reducer

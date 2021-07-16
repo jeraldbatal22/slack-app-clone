@@ -1,4 +1,3 @@
-import "./Clock.css"
 import { useState } from "react";
 
 const Clock = () => {

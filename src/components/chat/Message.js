@@ -3,19 +3,17 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { fetchRetrieveMessages } from "../../features/MessagesSlice"
 import defaultImage from '../../images/profile.jpg'
-import moment from "moment"
 
 const Message = ({ item, senderName }) => {
   const dateString = new Date(item.created_at)
   const date = dateString.toDateString()
   const hours = dateString.toLocaleTimeString()
-  // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  // console.log(moment().format(dateString))
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(fetchRetrieveMessages())
   }, [dispatch])
+
   return (
     <MessageContainer>
       <img src={defaultImage} alt='' />
@@ -30,7 +28,6 @@ const Message = ({ item, senderName }) => {
         <p>{item.body}</p>
 
       </MessageInfo>
-
     </MessageContainer>
   )
 }
@@ -45,6 +42,8 @@ const MessageContainer = styled.div`
   width: auto;
   background-color: white;
   height: auto;
+  width: 95%;
+
   &:hover{
     background-color: whitesmoke;
   }
@@ -57,6 +56,8 @@ const MessageContainer = styled.div`
 
 const MessageInfo = styled.div`
   padding-left: 10px;
+  overflow-wrap: break-word;
+  overflow-x: hidden;
 
   > h4 > span {
     color:gray;
@@ -64,6 +65,7 @@ const MessageInfo = styled.div`
     margin-left:4px ;
     font-size: 10px;
   }
+
   > h4 > span > .MuiSvgIcon-root  {
     color:gray;
     font-weight: 300;

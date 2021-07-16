@@ -6,6 +6,7 @@ import defaultImage from '../../images/profile.jpg'
 import { errorMessage } from '../../utils/message'
 import { Button } from '@material-ui/core'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
   const chatRef = useRef(null)
   const dispatch = useDispatch()
@@ -26,7 +27,6 @@ const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
     }
     else {
       dispatch(fetchDirectMessageToUser(searchId))
-      // dispatch(senderIdMessage({ senderId: searchId }))
       setState(true)
     }
   }
@@ -76,7 +76,7 @@ const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
             const date = dateString.toDateString()
             const hours = dateString.toLocaleTimeString()
 
-            return <MessageContainer key={index}>
+            return <MessageContainer key={index} ref={chatRef} >
               <img src={defaultImage} alt='' />
               <MessageInfo>
                 <h4>
@@ -97,8 +97,7 @@ const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
                   const username = newEmail[0].toUpperCase()
                   return <h2 key={index}>
                     <img src={defaultImage} alt='' />
-                    <Button onClick={() => showMessage(recent)}>{username}</Button>
-                    {/* <p>{recent.created_at}</p> */}
+                    <Button onClick={() => showMessage(recent)} className="button">{username}</Button>
                   </h2>
                 })
               }
@@ -246,6 +245,15 @@ const MessageInfo = styled.div`
     width: 40px;
     border-radius: 999px;
     margin-left: 30px;
+  }
+
+  .MuiButtonBase-root  {
+    margin-left: 10px;
+  }
+
+  .MuiButtonBase-root:hover  {
+    background: #3f0f40;
+    color: #fff;
   }
 `
 
