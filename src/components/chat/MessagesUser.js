@@ -5,7 +5,7 @@ import { useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchSendDirectMessage } from "../../features/MessagesSlice"
 import { errorMessage } from "../../utils/message"
-import SearchMessage from './SearchMessage'
+import SearchMessage from './RecentMessage'
 
 const DirectMessage = () => {
   const chatRef = useRef(null)

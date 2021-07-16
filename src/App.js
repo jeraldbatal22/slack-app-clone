@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchRetrieveMessages } from './features/MessagesSlice';
 import { UsersListAsync } from './features/UsersSlice'
-import DirectMessage from './components/chat/DirectMessage';
+import DirectMessage from './components/chat/MessagesUser';
 import UserProfile from './components/users/UserProfile'
 import CreateMessage from './components/chat/CreateMessage';
 import { channelsListOwnedAsync } from './features/ChannelsSlice'
