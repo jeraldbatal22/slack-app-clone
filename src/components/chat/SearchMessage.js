@@ -54,7 +54,7 @@ const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
         <ArrowBackIcon onClick={back} />
       }
       <HeaderSearch>
-        <h1>Search Conversation</h1>
+        <h1>Search Conversation: </h1>
 
         <input
           ref={chatRef}
@@ -113,6 +113,8 @@ const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
 export default SearchMessage
 
 const FormContainer = styled.form`
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 3;
  > h1 {
    margin-left: 20px;
    display: flex;
@@ -134,7 +136,7 @@ const FormContainer = styled.form`
 
 const HeaderSearch = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   position: absolute;
   justify-content: center;
   align-items: center;
@@ -143,9 +145,11 @@ const HeaderSearch = styled.div`
   margin-right: 160px;
   top: 0;
   height: 10vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
   >h1 {
-    font-size: 1.3rem;
+    font-size: 1rem;
+    margin-right: 2%;
   }
   >button {
     margin-bottom: 200px;
@@ -153,11 +157,10 @@ const HeaderSearch = styled.div`
   }
   >input {
     margin-top: 10px;
-    padding: 8px 10px;
+    padding: 6px 10px;
     margin-bottom: 7px;
     text-align: center;
-    border: none;
-    background: #3f0f40;
+    border: 1px solid gray;
     border-radius: 10px;
     color: #fff;
   }

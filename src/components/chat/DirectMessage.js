@@ -123,6 +123,7 @@ const Header = styled.div`
   border-bottom: 1px solid lightgray;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   width: 83.2%;
+  z-index: 2;
 
 `
 
@@ -139,6 +140,9 @@ const HeaderLeft = styled.div`
 `
 const HeaderRight = styled.div`
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin-right: 5%;
+  margin-top: 0.7%;
+
 
   > p {
     display: flex;
@@ -147,7 +151,7 @@ const HeaderRight = styled.div`
   }
 
   > p > .MuiSvgIcon-root {
-    margin-right: 5px;
+    margin-right: 5%;
     font-size: 16px;
   }
 `

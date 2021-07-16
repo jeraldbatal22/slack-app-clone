@@ -23,13 +23,13 @@ const CreateMessage = () => {
     e.preventDefault()
     const userId = users.list.find(index => index.id === parseFloat(sendText.receiver_id))
     if (sendText.receiver_id === '') {
-      return errorMessage('Error', "Input sender id")
+      return errorMessage('Error', "Please enter Sender ID.")
     }
     if (sendText.message === '') {
-      return errorMessage('Error', "Input some message")
+      return errorMessage('Error', "Message can't be blank.")
     }
     if (!userId) {
-      errorMessage('Error', `Id ${sendText.receiver_id} is not registered as a user`)
+      errorMessage('Error', `ID ${sendText.receiver_id} is not registered as a user`)
     }
     else {
       dispatch(fetchSendDirectMessage({
@@ -42,7 +42,7 @@ const CreateMessage = () => {
         message: '',
         receiver_id: ''
       })
-      return successMessage('Success', `Successfully send message`)
+      return successMessage('Success', `Successfully sent message.`)
     }
 
   }
@@ -51,14 +51,14 @@ const CreateMessage = () => {
     <ChatContainer>
       <h2>New Message</h2>
       <form >
-        <div classname="createMessage-to">
-          <label>To</label>
-          <input type="number" value={sendText.receiver_id} name="receiver_id" placeholder="Receiver Id" autoComplete="off" onChange={onHandleChange} />
-        </div>
-        <div className="createMessage-message">
-          <input type="text" name="message" value={sendText.message} placeholder="Send a message" autoComplete="off" onChange={onHandleChange} />
+        <CreateMessageTo>
+          <label>To: </label>
+          <input type="number" value={sendText.receiver_id} name="receiver_id" placeholder="Receiver ID" autoComplete="off" onChange={onHandleChange} />
+        </CreateMessageTo>
+        <MessageBody>
+          <input type="text" name="message" value={sendText.message} placeholder="Enter a message" autoComplete="off" onChange={onHandleChange} />
           <Button type="submit" onClick={onHandleSend}>SEND</Button>
-        </div>
+        </MessageBody>
       </form>
     </ChatContainer>
   )
@@ -73,6 +73,7 @@ const ChatContainer = styled.div`
   margin-top: 0;
   box-sizing: border-box;
   overflow-x: hidden;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
   >h2{
     margin-top: 8vh;
@@ -91,26 +92,62 @@ const ChatContainer = styled.div`
 
   >form >div{
     display: flex;
-    justify-content: space-around;
     align-items: center;
     border: none;
     //border-top: 1px solid black;
     //border-bottom: 1px solid black;
     width: 96.7%;
-    padding-left: 20px;
-    padding-right: 20px;
   }
 
-  >form >div >input {
-    bottom: 30px;
-    width: 80%;
-    height: 30px;
-    border: 1px solid transparent;
-    outline: none;
-    padding: 20px  }
 
   >form >button {
     /* display: none ; */
+  }
+
+`
+
+const CreateMessageTo = styled.div`
+
+  margin-left: 5%;
+
+  label {
+    font-weight: 600;
+    margin-right: 2%;
+  }
+
+  input {
+    bottom: 30px;
+    width: 25%;
+    height: 30px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 3px solid black;
+    outline: none;
+    padding: 10px 
+  }
+`
+const MessageBody = styled.div`
+
+justify-content: space-evenly;
+margin-bottom: 2%;
+
+  button {
+    font-weight: 600;
+    margin-left: 2%;
+  }
+
+  input {
+    margin-left: 3%;
+    bottom: 30px;
+    width: 90%;
+    height: 30px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 3px solid black;
+    outline: none;
+    padding: 10px 
   }
 
 `
