@@ -10,10 +10,10 @@ import { successMessage, errorMessage } from "../../utils/message";
 import { getUser } from "../../features/AuthSlice";
 import { clearStateChannels } from "../../features/ChannelsSlice";
 import { clearStateChannelId } from "../../features/RoomSlice";
-import { clearStateRetrieveMessages } from "../../features/MessagesSlice";
+import { clearStateRetrieveMessages, fetchDirectMessageToUser, senderIdMessage } from "../../features/MessagesSlice";
 import { UsersListAsync, searchUser } from "../../features/UsersSlice";
 import { clearIdSearch } from '../../features/UsersSlice';
-
+// import HeaderSearch from "./HeaderSearch";
 const Header = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -48,39 +48,46 @@ const Header = () => {
     setSearchId(e.target.value);
   }
 
+  // const [state, setState] = useState(false)
+
   const onHandleSearch = (e) => {
     e.preventDefault();
-    const userId = users.list.find(index => index.id === parseFloat(searchId) || index.email === searchId);
+    const userId = users.list.find(index => index.email === searchId);
     if (!userId) {
-      errorMessage('Error', `${searchId} is not registered as a user.`);
+      return errorMessage('Error', `${searchId} is not registered as a user.`);
     }
-    history.push('/profile');
-    dispatch(searchUser(userId));
+    const id = userId.id
+    dispatch(fetchDirectMessageToUser(id))
+    history.push('/search-users');
+    dispatch(senderIdMessage({ senderId: userId.id }))
     setSearchId('');
   }
 
   return (
-    <HeaderContainer>
-      <HeaderLeft>
-        <FiberManualRecord /><h5>{username}</h5>
-      </HeaderLeft>
-      <AccessTime />
+    <>
+      <HeaderContainer>
+        <HeaderLeft>
+          <FiberManualRecord /><h5>{username}</h5>
+        </HeaderLeft>
+        <AccessTime />
 
-      <form onSubmit={onHandleSearch}>
-        <HeaderSearch>
-          <input type="text" value={searchId} placeholder={`Search users via User Id or Email`} onChange={onHandleChange} />
-          <Search />
-          <button type="submit">Search</button>
-        </HeaderSearch>
+        <form onSubmit={onHandleSearch}>
+          <HeadersSearch>
+            <input type="text" value={searchId} placeholder={`Search users email`} onChange={onHandleChange} />
+            <Search />
+            <button type="submit">Search</button>
+          </HeadersSearch>
 
-      </form>
-      <HelpOutline />
+        </form>
+        <HelpOutline />
 
-      <HeaderRight>
-        <button type="submit" onClick={onHandleLogout}>LOGOUT</button>
-        <HeaderAvatar onClick={viewProfile} alt="" />
-      </HeaderRight>
-    </HeaderContainer>
+        <HeaderRight>
+          <button type="submit" onClick={onHandleLogout}>LOGOUT</button>
+          <HeaderAvatar onClick={viewProfile} alt="" />
+        </HeaderRight>
+      </HeaderContainer>
+
+    </>
   )
 }
 
@@ -139,7 +146,7 @@ const HeaderAvatar = styled(Avatar)`
   }
 
 `
-const HeaderSearch = styled.div`
+const HeadersSearch = styled.div`
   flex: 0.4;
   display: flex;
   padding: 0 50px;

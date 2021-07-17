@@ -1,13 +1,13 @@
 import React, { useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { fetchDirectMessageToUser, senderIdMessage, clearDirectMessage } from "../../features/MessagesSlice"
+import { fetchDirectMessageToUser, senderIdMessage, clearDirectMessage } from "../../../features/MessagesSlice"
 import styled from 'styled-components'
-import defaultImage from '../../images/profile.jpg'
-import { errorMessage } from '../../utils/message'
+import defaultImage from '../../../images/profile.jpg'
+import { errorMessage } from '../../../utils/message'
 import { Button } from '@material-ui/core'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
+const RecentMessage = ({ searchId, setSearchId, state, setState }) => {
   const chatRef = useRef(null)
   const dispatch = useDispatch()
   const { messages, users } = useSelector(store => store)
@@ -111,7 +111,7 @@ const SearchMessage = ({ searchId, setSearchId, state, setState }) => {
   )
 }
 
-export default SearchMessage
+export default RecentMessage
 
 const FormContainer = styled.form`
  > h1 {

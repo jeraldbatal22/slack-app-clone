@@ -3,9 +3,9 @@ import { Button } from "@material-ui/core"
 import { InfoOutlined } from "@material-ui/icons"
 import { useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchSendDirectMessage } from "../../features/MessagesSlice"
-import { errorMessage } from "../../utils/message"
-import SearchMessage from './RecentMessage'
+import { fetchSendDirectMessage } from "../../../features/MessagesSlice"
+import { errorMessage } from "../../../utils/message"
+import RecentMessage from "./RecentMessage"
 
 const DirectMessage = () => {
   const chatRef = useRef(null)
@@ -60,7 +60,7 @@ const DirectMessage = () => {
         </HeaderRight>
       </Header>
       <ChatMessages>
-        <SearchMessage searchId={searchId} setSearchId={setSearchId} state={state} setState={setState} />
+        <RecentMessage searchId={searchId} setSearchId={setSearchId} state={state} setState={setState} />
       </ChatMessages>
 
       <ChatBottom ref={chatRef} />

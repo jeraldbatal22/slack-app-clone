@@ -2,8 +2,9 @@ import styled from "styled-components"
 import { Button } from "@material-ui/core"
 import { useDispatch, useSelector } from "react-redux"
 import { useState } from "react"
-import { errorMessage, successMessage } from "../../utils/message"
-import { fetchSendDirectMessage } from "../../features/MessagesSlice"
+import { errorMessage } from "../../../utils/message"
+import { fetchSendDirectMessage } from "../../../features/MessagesSlice"
+
 const CreateMessage = () => {
   const dispatch = useDispatch()
 
@@ -21,19 +22,23 @@ const CreateMessage = () => {
   const { users } = useSelector(store => store)
   const onHandleSend = (e) => {
     e.preventDefault()
-    const userId = users.list.find(index => index.id === parseFloat(sendText.receiver_id))
+
+    const user = users.list.find(user => user.email === sendText.receiver_id)
+
+    const getId = user && user.id
+
     if (sendText.receiver_id === '') {
-      return errorMessage('Error', "Please enter Sender ID.")
+      return errorMessage('Error', "Please enter user email.")
     }
     if (sendText.message === '') {
       return errorMessage('Error', "Message can't be blank.")
     }
-    if (!userId) {
+    if (!getId) {
       errorMessage('Error', `ID ${sendText.receiver_id} is not registered as a user`)
     }
     else {
       dispatch(fetchSendDirectMessage({
-        receiver_id: parseFloat(sendText.receiver_id),
+        receiver_id: getId,
         receiver_class: 'User',
         body: sendText.message
       }))
@@ -42,7 +47,7 @@ const CreateMessage = () => {
         message: '',
         receiver_id: ''
       })
-      return successMessage('Success', `Successfully sent message.`)
+      return console.log(`Successfully sent message.`)
     }
 
   }
@@ -53,7 +58,7 @@ const CreateMessage = () => {
       <form >
         <CreateMessageTo>
           <label>To: </label>
-          <input type="number" value={sendText.receiver_id} name="receiver_id" placeholder="Receiver ID" autoComplete="off" onChange={onHandleChange} />
+          <input type="text" value={sendText.receiver_id} name="receiver_id" placeholder="Receiver ID" autoComplete="off" onChange={onHandleChange} />
         </CreateMessageTo>
         <MessageBody>
           <input type="text" name="message" value={sendText.message} placeholder="Enter a message" autoComplete="off" onChange={onHandleChange} />

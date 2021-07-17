@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SideBar from './components/sidebar/SideBar';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Header from './components/header/Header.js'
-import Chat from './components/chat/Chat';
+import Chat from './components/chat/channel/Chat';
 import Login from './components/login/Login';
 import LoginForm from './components/login/LoginForm'
 import Register from './components/register/Register'
@@ -12,11 +12,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchRetrieveMessages } from './features/MessagesSlice';
 import { UsersListAsync } from './features/UsersSlice'
-import DirectMessage from './components/chat/MessagesUser';
+import DirectMessage from './components/chat/user/MessagesUser';
 import UserProfile from './components/users/UserProfile'
-import CreateMessage from './components/chat/CreateMessage';
+import CreateMessage from './components/chat/user/CreateMessage';
 import { channelsListOwnedAsync } from './features/ChannelsSlice'
 import Home from './components/home/Home';
+import HeaderSearch from './components/header/HeaderSearch'
 
 function App() {
 
@@ -61,6 +62,11 @@ function App() {
                 <Route path="/home">
                   <Home />
                 </Route>
+
+                <Route path="/search-users">
+                  <HeaderSearch />
+                </Route>
+
                 <Route path="/messages">
                   <DirectMessage />
                 </Route>

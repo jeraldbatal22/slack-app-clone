@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import Clock from "../Clock/Clock";
+import Clock from "../clock/Clock";
 import slackLogo from "../../images/slackLogo.png"
 import { Send } from '@material-ui/icons';
 import { Add } from '@material-ui/icons';

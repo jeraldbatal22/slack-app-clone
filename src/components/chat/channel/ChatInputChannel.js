@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { Button } from "@material-ui/core"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { fetchSendMessageToChannel, fetchRetrieveMessages } from "../../features/MessagesSlice"
+import { fetchSendMessageToChannel, fetchRetrieveMessages } from "../../../features/MessagesSlice"
 import { Send } from "@material-ui/icons"
 const ChatInput = ({ channelDetails, user, chatRef }) => {
   const dispatch = useDispatch()
@@ -30,7 +30,7 @@ const ChatInput = ({ channelDetails, user, chatRef }) => {
     <ChatInputContainer>
       <form>
         <input type="text" value={inputMessage} name="body" placeholder={`Message # ${channelDetails && channelDetails.name.toLocaleUpperCase()}`} onChange={onHandleChange} autoComplete="off" />
-        <Button onClick={onHandleSend} type="submit">SEND <Send/></Button>
+        <Button onClick={onHandleSend} type="submit">SEND <Send /></Button>
       </form>
     </ChatInputContainer>
   )

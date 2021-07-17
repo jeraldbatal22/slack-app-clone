@@ -1,8 +1,8 @@
 import styled from "styled-components"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { fetchRetrieveMessages } from "../../features/MessagesSlice"
-import defaultImage from '../../images/profile.jpg'
+import { fetchRetrieveMessages } from "../../../features/MessagesSlice"
+import defaultImage from '../../../images/profile.jpg'
 
 const Message = ({ item, senderName }) => {
   const dateString = new Date(item.created_at)

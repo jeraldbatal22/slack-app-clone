@@ -4,10 +4,10 @@ import { Avatar } from '@material-ui/core';
 import { StarBorder, Add } from '@material-ui/icons';
 import Message from './MessagesChannel';
 import ChatInput from './ChatInputChannel';
-import { errorMessage, successMessage } from '../../utils/message';
+import { errorMessage, successMessage } from '../../../utils/message';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
-import { viewMembersToChannelAsync, addMemberToChannelAsync } from '../../features/ChannelsSlice';
+import { viewMembersToChannelAsync, addMemberToChannelAsync } from '../../../features/ChannelsSlice';
 
 const Chat = () => {
 
@@ -18,33 +18,34 @@ const Chat = () => {
   const channelDetails = channels.list.find(id => id.id === roomId.roomId)
 
   const addMemberToChannel = () => {
-    const addMember = prompt("Enter User id number");
+    const addMember = prompt("Enter user email");
 
-    const index = channels.memberList.find(index => index.user_id === parseFloat(addMember))
-    const user = users.list.find(user => user.id === parseFloat(addMember))
+    const user = users.list.find(user => user.email === addMember)
+
+    const getId = user && user.id
+    const index = channels.memberList.find(index => index.user_id === getId)
+
+    console.log(index)
     if (addMember === '') {
       return errorMessage('Error', 'Input channel id')
     }
-    if (index) {
-      return errorMessage('Error', `User id# ${addMember} is already member of ${channelDetails.name}`)
-    }
     if (addMember) {
 
-      if (addMember > users.list.length || isNaN(addMember)) {
-        return errorMessage('Error', `Invalid user id`)
+      if (index) {
+        return errorMessage('Error', `User id ${user && user.email} is already member of ${channelDetails.name}`)
       }
-
       if (!user) {
         return errorMessage('Error', `Id ${addMember} is not registered as a user`)
       }
-
+      if (addMember > users.list.length) {
+        return errorMessage('Error', `Invalid user id`)
+      }
       if (addMember)
         dispatch(addMemberToChannelAsync({
-          member_id: parseFloat(addMember), // User ID of the new member user
+          member_id: getId, // User ID of the new member user
           id: channelDetails.id // Channel ID
         }))
-
-      return successMessage('Success', 'Successfully and member in this channel')
+      return successMessage('Success', `Successfully add ${addMember} to ${channelDetails.name} channel`)
     }
   }
 

@@ -36,8 +36,9 @@ export const fetchDirectMessageToUser = createAsyncThunk(
   'messages/fetchDirectMessageToUser',
   async (payload) => {
     try {
-      console.log(payload)
+      // console.log(payload)
       const data = await axios.get(`messages?receiver_class=User&receiver_id=${payload}`, true) // GET all messages data per user id from api axios axiosApi.js
+      console.log(data)
       return data
     } catch (err) {
       return { error: false }

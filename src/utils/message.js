@@ -19,3 +19,11 @@ export const successMessage = (success, messageSuccess) => {
     'success'
   )
 }
+
+export const warningMessage = (warning, messageWarning) => {
+  return Swal.fire(
+    `${warning}`,
+    `${messageWarning}`,
+    'warning'
+  )
+}

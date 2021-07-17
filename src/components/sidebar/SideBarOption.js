@@ -2,7 +2,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import styled from "styled-components";
-import { errorMessage, successMessage } from "../../utils/message";
+import { errorMessage, successMessage, warningMessage } from "../../utils/message";
 import { fetchRetrieveMessages, fetchRecentMessageToUser } from "../../features/MessagesSlice";
 import { addChannelAsync, viewMembersToChannelAsync, channelsListAsync } from "../../features/ChannelsSlice";
 import { enterRoom } from "../../features/RoomSlice";
@@ -50,7 +50,7 @@ const SideBarOption = ({ Icon, title, addChannelOption, id, titleId }) => {
         history.push(`/${titleId}`)
       } else {
         history.push(`/home`)
-        return errorMessage('Error', "This feature is not available yet.")
+        return warningMessage('Warning', "This feature is not available yet.")
       }
     }
     if (id) {
