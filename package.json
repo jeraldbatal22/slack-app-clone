@@ -2,6 +2,7 @@
   "name": "slack_app_clone",
   "version": "0.1.0",
   "private": true,
+  "home": "https://github.com/jeraldbatal22/slack-app-clone",
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
@@ -27,8 +28,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "node server.js",
-    "starts": "node server.js",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -53,5 +53,8 @@
   },
   "resolutions": {
     "styled-components": "^5"
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   }
 }
