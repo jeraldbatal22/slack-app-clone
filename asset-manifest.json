@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/jeraldbatal22/slack-app-clone/static/css/main.92698694.chunk.css",
+    "main.js": "/jeraldbatal22/slack-app-clone/static/js/main.5eed2cfd.chunk.js",
+    "main.js.map": "/jeraldbatal22/slack-app-clone/static/js/main.5eed2cfd.chunk.js.map",
+    "runtime-main.js": "/jeraldbatal22/slack-app-clone/static/js/runtime-main.15497b6f.js",
+    "runtime-main.js.map": "/jeraldbatal22/slack-app-clone/static/js/runtime-main.15497b6f.js.map",
+    "static/js/2.4ddbb176.chunk.js": "/jeraldbatal22/slack-app-clone/static/js/2.4ddbb176.chunk.js",
+    "static/js/2.4ddbb176.chunk.js.map": "/jeraldbatal22/slack-app-clone/static/js/2.4ddbb176.chunk.js.map",
+    "index.html": "/jeraldbatal22/slack-app-clone/index.html",
+    "static/css/main.92698694.chunk.css.map": "/jeraldbatal22/slack-app-clone/static/css/main.92698694.chunk.css.map",
+    "static/js/2.4ddbb176.chunk.js.LICENSE.txt": "/jeraldbatal22/slack-app-clone/static/js/2.4ddbb176.chunk.js.LICENSE.txt",
+    "static/media/slackLogo.1d38b4d5.png": "/jeraldbatal22/slack-app-clone/static/media/slackLogo.1d38b4d5.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.15497b6f.js",
+    "static/js/2.4ddbb176.chunk.js",
+    "static/css/main.92698694.chunk.css",
+    "static/js/main.5eed2cfd.chunk.js"
+  ]
+}
