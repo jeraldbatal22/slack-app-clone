@@ -2,6 +2,9 @@
   "name": "slack_app_clone",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "14.x"
+  },
   "home": "https://github.com/jeraldbatal22/slack-app-clone",
   "dependencies": {
     "@material-ui/core": "^4.11.4",
