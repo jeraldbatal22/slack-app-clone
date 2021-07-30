@@ -11,9 +11,9 @@ import { getUser } from "../../features/AuthSlice";
 import { clearStateChannels } from "../../features/ChannelsSlice";
 import { clearStateChannelId } from "../../features/RoomSlice";
 import { clearStateRetrieveMessages, fetchDirectMessageToUser, senderIdMessage } from "../../features/MessagesSlice";
-import { UsersListAsync, searchUser } from "../../features/UsersSlice";
+import { UsersListAsync } from "../../features/UsersSlice";
 import { clearIdSearch } from '../../features/UsersSlice';
-// import HeaderSearch from "./HeaderSearch";
+
 const Header = () => {
   const dispatch = useDispatch();
   const history = useHistory();
