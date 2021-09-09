@@ -9,7 +9,7 @@ import LoginForm from './components/login/LoginForm'
 import Register from './components/register/Register'
 import { getUser } from './features/AuthSlice'
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchRetrieveMessages } from './features/MessagesSlice';
 import { UsersListAsync } from './features/UsersSlice'
 import DirectMessage from './components/chat/user/MessagesUser';
@@ -22,16 +22,28 @@ import HeaderSearch from './components/header/HeaderSearch'
 function App() {
 
   const dispatch = useDispatch()
-
-  const { isAuth, authId } = useSelector(({ auth }) => auth)
+  const [isLoading, setIsLoading] = useState(true)
+  const { isAuth } = useSelector(({ auth }) => auth)
 
   useEffect(() => {
-    dispatch(getUser())
+    if (dispatch(getUser())) {
+      dispatch(getUser())
+      setIsLoading(false)
+    }
     dispatch(fetchRetrieveMessages())
     dispatch(UsersListAsync())
     dispatch(channelsListOwnedAsync())
 
   }, [dispatch])
+
+
+  if (isLoading) {
+    return (
+      <div>
+        <h1>Loading... Please wait...</h1>
+      </div>
+    )
+  }
 
   return (
     <div className="App">
@@ -46,40 +58,39 @@ function App() {
             <Register />
           </Route>
 
-          <Route path="/login">
+          <Route exact path="/login">
             <LoginForm />
           </Route>
 
-          {(isAuth && authId !== null) ?
+          {isAuth ?
             <AppBody>
               <Header />
               <SideBar />
 
-              <Switch>
-                <Route path="/homepage">
-                  <Chat />
-                </Route>
-                <Route path="/home">
-                  <Home />
-                </Route>
+              <Route path="/home">
+                <Home />
+              </Route>
 
-                <Route path="/search-users">
-                  <HeaderSearch />
-                </Route>
+              <Route path="/homepage">
+                <Chat />
+              </Route>
 
-                <Route path="/messages">
-                  <DirectMessage />
-                </Route>
-                <Route path="/createMessage">
-                  <CreateMessage />
-                </Route>
-                <Route path="/profile">
-                  <UserProfile />
-                </Route>
-              </Switch>
+              <Route path="/search-users">
+                <HeaderSearch />
+              </Route>
+
+              <Route path="/messages">
+                <DirectMessage />
+              </Route>
+              <Route path="/createMessage">
+                <CreateMessage />
+              </Route>
+              <Route path="/profile">
+                <UserProfile />
+              </Route>
 
             </AppBody>
-            : <Redirect to="/home"></Redirect>}
+            : <Redirect to="/asdsa" />}
 
         </Switch>
       </Router>

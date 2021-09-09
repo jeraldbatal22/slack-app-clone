@@ -58,7 +58,7 @@ const Home = () => {
         <p>A secure space to work with other companies, just like you do with your own team</p>
         <div className="home-welcome-container">
           <div>
-            <img src="https://a.slack-edge.com/6c404/marketing/img/homepage/bold-existing-users/waving-hand.gif" srcset="https://a.slack-edge.com/6c404/marketing/img/homepage/bold-existing-users/waving-hand.gif 1x, https://a.slack-edge.com/6c404/marketing/img/homepage/bold-existing-users/waving-hand@2x.gif 2x" alt="" height="56" width="52" />
+            <img src="https://a.slack-edge.com/6c404/marketing/img/homepage/bold-existing-users/waving-hand.gif" srcSet="https://a.slack-edge.com/6c404/marketing/img/homepage/bold-existing-users/waving-hand.gif 1x, https://a.slack-edge.com/6c404/marketing/img/homepage/bold-existing-users/waving-hand@2x.gif 2x" alt="" height="56" width="52" />
             <h1>Welcome back </h1>
           </div>
           <div className="welcome-workspace-container">

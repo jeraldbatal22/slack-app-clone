@@ -32,7 +32,6 @@ const Header = () => {
     dispatch(clearStateRetrieveMessages());
     dispatch(UsersListAsync());
     dispatch(getUser());
-    history.push('/login');
     successMessage('Success!', 'Successfully Logged Out!');
   }
 
