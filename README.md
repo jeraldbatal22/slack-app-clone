@@ -3,7 +3,7 @@ Slack App Clone
 See Live App => https://slack-app-cl0ne.netlify.app/
 Note: After click this live app go to site settings then change to allow insecure content.
 
-Sample Images App
+Sample Images App 
 
 ![image](https://user-images.githubusercontent.com/80327905/132612115-87ee4b70-a461-429a-9c93-13617aca389f.png)
 
